@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Settings } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Settings } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { AdminPage } from './components/AdminPage';
 
@@ -15,6 +15,7 @@ export function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [linksOpen, setLinksOpen] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Hash listener for #admin URL support
@@ -33,7 +34,7 @@ export function App() {
     };
   }, []);
 
-  // Ensure continuous muted background loop autoplay on mount
+  // Ensure continuous background video playback on mount
   useEffect(() => {
     if (videoRef.current && view === 'public') {
       videoRef.current.play().catch((err) => {
@@ -41,6 +42,17 @@ export function App() {
       });
     }
   }, [view]);
+
+  const toggleSound = () => {
+    if (videoRef.current) {
+      const newMuted = !isMuted;
+      videoRef.current.muted = newMuted;
+      setIsMuted(newMuted);
+      if (newMuted === false) {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  };
 
   const handleNavClick = (link: string) => {
     const lower = link.toLowerCase();
@@ -70,11 +82,11 @@ export function App() {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white font-inter">
-      {/* ── Fullscreen Background Video (Always Looping, Muted, No Buttons) ── */}
+      {/* ── Fullscreen Background Video (Always Looping, No Controls, Audio Supported) ── */}
       <video
         ref={videoRef}
         autoPlay
-        muted
+        muted={isMuted}
         loop
         playsInline
         aria-hidden="true"
@@ -117,8 +129,21 @@ export function App() {
             ))}
           </div>
 
-          {/* Right: Desktop CTA */}
+          {/* Right: Sound Control + Desktop CTA */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Audio Sound Toggle */}
+            <button
+              onClick={toggleSound}
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-3 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
+              title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+            >
+              {isMuted ? (
+                <VolumeX className="w-4 h-4 text-white/60" />
+              ) : (
+                <Volume2 className="w-4 h-4 text-[#00F0FF] animate-pulse" />
+              )}
+            </button>
+
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
@@ -141,8 +166,20 @@ export function App() {
             </button>
           </div>
 
-          {/* Right: Mobile Controls (Hamburger) */}
+          {/* Right: Mobile Controls (Sound + Hamburger) */}
           <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={toggleSound}
+              className="p-2 border border-white/30 rounded-full hover:opacity-70 transition-opacity cursor-pointer"
+              title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+            >
+              {isMuted ? (
+                <VolumeX className="w-5 h-5 text-white/60" />
+              ) : (
+                <Volume2 className="w-5 h-5 text-[#00F0FF]" />
+              )}
+            </button>
+
             <button
               className="p-2 hover:opacity-70 transition-opacity cursor-pointer"
               onClick={() => setMenuOpen(true)}
@@ -207,6 +244,24 @@ export function App() {
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
+            </button>
+
+            {/* Sound Toggle Pill */}
+            <button
+              onClick={toggleSound}
+              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-3 text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
+            >
+              {isMuted ? (
+                <>
+                  <VolumeX className="w-3.5 h-3.5 text-white/50" />
+                  <span>Unmute Audio</span>
+                </>
+              ) : (
+                <>
+                  <Volume2 className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
+                  <span>Audio Enabled</span>
+                </>
+              )}
             </button>
 
             {/* Award badge */}
@@ -283,8 +338,16 @@ export function App() {
             </button>
           ))}
 
-          {/* Mobile Admin & Links Buttons */}
+          {/* Mobile Sound Control & Links Buttons */}
           <div className="flex flex-col gap-3 w-full px-10 max-w-sm">
+            <button
+              onClick={toggleSound}
+              className="flex items-center justify-center gap-2 border border-white/30 bg-white/10 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-white/20 transition-all cursor-pointer rounded-full"
+            >
+              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-[#00F0FF]" />}
+              <span>{isMuted ? 'Unmute Audio' : 'Audio Enabled'}</span>
+            </button>
+
             <button
               className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer rounded-full"
               onClick={() => {
