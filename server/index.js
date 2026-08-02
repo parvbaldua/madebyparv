@@ -15,6 +15,7 @@ const ADMIN_TOKEN = 'mbp_admin_secret_token_2026';
 
 const DATA_DIR = path.join(__dirname, 'data');
 const LINKS_FILE = path.join(DATA_DIR, 'links.json');
+const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 app.use(cors());
 app.use(express.json());
@@ -62,7 +63,7 @@ function requireAdmin(req, res, next) {
   return res.status(401).json({ error: 'Unauthorized: Invalid admin token' });
 }
 
-// ── PUBLIC ENDPOINTS ──
+// ── PUBLIC API ENDPOINTS ──
 
 // 1. Get active public links
 app.get('/api/links', (req, res) => {
@@ -87,7 +88,7 @@ app.post('/api/links/:id/click', (req, res) => {
   res.status(404).json({ error: 'Link not found' });
 });
 
-// ── ADMIN ENDPOINTS ──
+// ── ADMIN API ENDPOINTS ──
 
 // 3. Admin Login
 app.post('/api/admin/login', (req, res) => {
@@ -271,7 +272,6 @@ app.get('/api/admin/fetch-meta', requireAdmin, async (req, res) => {
 
     const html = await response.text();
 
-    // Simple regex extraction for title, description, og:image
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i) || html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i);
     const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i) || html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i);
     const imageMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
@@ -286,6 +286,24 @@ app.get('/api/admin/fetch-meta', requireAdmin, async (req, res) => {
   }
 });
 
+// ── SERVE STATIC FRONTEND BUILD (VITE DIST) ──
+if (fs.existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR));
+}
+
+// Fallback all non-API GET requests to index.html (SPA Client-Side Routing)
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) {
+    return res.status(404).json({ error: 'API route not found' });
+  }
+  const indexPath = path.join(DIST_DIR, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.send('MadeByParv API Server Running. Please run `npm run build` to generate frontend production files.');
+  }
+});
+
 app.listen(PORT, () => {
-  console.log(`✅ MadeByParv Links API Server running at http://localhost:${PORT}`);
+  console.log(`✅ MadeByParv Server running at http://localhost:${PORT}`);
 });
