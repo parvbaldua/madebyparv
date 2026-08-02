@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
+import { SeriesModal } from './components/SeriesModal';
 import { AdminPage } from './components/AdminPage';
 
-const NAV_LINKS = ['YouTube', 'Tutorials', 'Tools', 'Links', 'Contact'];
+const NAV_LINKS = ['YouTube', 'Tutorials', 'Series', 'Tools', 'Links', 'Contact'];
 
 // Custom Instagram SVG Component
 function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
@@ -36,6 +37,7 @@ export function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [linksOpen, setLinksOpen] = useState(false);
+  const [seriesOpen, setSeriesOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -90,9 +92,11 @@ export function App() {
 
   const handleNavClick = (link: string) => {
     const lower = link.toLowerCase();
-    if (lower === 'links') {
+    if (lower === 'series' || lower === 'tutorials') {
+      setSeriesOpen(true);
+    } else if (lower === 'links') {
       setLinksOpen(true);
-    } else if (lower === 'youtube' || lower === 'tutorials') {
+    } else if (lower === 'youtube') {
       window.open('https://www.youtube.com/@MadeByParv', '_blank');
     } else if (lower === 'tools') {
       setLinksOpen(true);
@@ -269,6 +273,15 @@ export function App() {
               <span>DM LINKS &amp; RESOURCES</span>
             </button>
 
+            {/* Tech Hacks Series CTA Pill */}
+            <button
+              onClick={() => setSeriesOpen(true)}
+              className="flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white cursor-pointer rounded-full"
+            >
+              <Flame className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
+              <span>WATCH SERIES</span>
+            </button>
+
             {/* Sound Toggle Pill */}
             <button
               onClick={toggleSound}
@@ -299,10 +312,18 @@ export function App() {
 
           {/* Stats Row */}
           <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-6 sm:mt-10 animate-fade-up-delay-4">
-            <div>
-              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">8/100</p>
-              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Tech Hacks Series</p>
-            </div>
+            <button
+              onClick={() => setSeriesOpen(true)}
+              className="text-left group cursor-pointer"
+            >
+              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight group-hover:underline">
+                8/100
+              </p>
+              <p className="font-inter text-white/70 group-hover:text-white text-[8px] sm:text-xs tracking-widest uppercase mt-0.5 flex items-center gap-1">
+                <span>Tech Hacks Series</span>
+                <ArrowUpRight className="w-3 h-3 text-[#00F0FF]" />
+              </p>
+            </button>
             <div>
               <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">125+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
@@ -390,6 +411,17 @@ export function App() {
 
           {/* Mobile Social & Links Buttons */}
           <div className="flex flex-col gap-3 w-full px-10 max-w-sm">
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                setSeriesOpen(true);
+              }}
+              className="flex items-center justify-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#B600A8]/40 transition-all cursor-pointer rounded-full font-semibold"
+            >
+              <Flame className="w-4 h-4 text-[#00F0FF]" />
+              <span>WATCH TECH HACKS SERIES</span>
+            </button>
+
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
@@ -414,10 +446,16 @@ export function App() {
         </nav>
       </div>
 
-      {/* ── FEATURED LINKS & DM RESOURCES MODAL ── */}
+      {/* ── FEATURED LINKS MODAL ── */}
       <LinksModal
         isOpen={linksOpen}
         onClose={() => setLinksOpen(false)}
+      />
+
+      {/* ── TECH HACKS SERIES MODAL ── */}
+      <SeriesModal
+        isOpen={seriesOpen}
+        onClose={() => setSeriesOpen(false)}
       />
     </div>
   );

@@ -15,15 +15,49 @@ const ADMIN_TOKEN = 'mbp_admin_secret_token_2026';
 
 const DATA_DIR = path.join(__dirname, 'data');
 const LINKS_FILE = path.join(DATA_DIR, 'links.json');
+const SERIES_FILE = path.join(DATA_DIR, 'series.json');
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 app.use(cors());
 app.use(express.json());
 
-// Ensure data directory and file exist
+// Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
+
+const DEFAULT_SERIES_EPISODES = [
+  {
+    id: 'ep-8',
+    episodeNumber: 8,
+    title: 'Automate 90% of Your Daily Content with AI',
+    platform: 'instagram',
+    embedUrl: 'https://www.instagram.com/madebyparv',
+    videoUrl: 'https://www.instagram.com/madebyparv',
+    description: 'Learn how to generate 30 days of social media posts in 10 minutes using ChatGPT + Canva bulk create.',
+    dmKeyword: 'AUTOMATE',
+  },
+  {
+    id: 'ep-7',
+    episodeNumber: 7,
+    title: 'Secret Midjourney V6 Prompting Hack',
+    platform: 'youtube',
+    embedUrl: 'https://www.youtube.com/@MadeByParv',
+    videoUrl: 'https://www.youtube.com/@MadeByParv',
+    description: 'Unlock photorealistic 8K image quality with hidden stylize parameters.',
+    dmKeyword: 'PROMPT',
+  },
+  {
+    id: 'ep-6',
+    episodeNumber: 6,
+    title: 'Free AI Voice Cloning Tutorial for Reels',
+    platform: 'instagram',
+    embedUrl: 'https://www.instagram.com/madebyparv',
+    videoUrl: 'https://www.instagram.com/madebyparv',
+    description: 'Clone your voice for free using ElevenLabs in under 2 minutes.',
+    dmKeyword: 'VOICE',
+  },
+];
 
 function getLinks() {
   try {
@@ -44,6 +78,30 @@ function saveLinks(links) {
     return true;
   } catch (err) {
     console.error('Error saving links file:', err);
+    return false;
+  }
+}
+
+function getSeries() {
+  try {
+    if (!fs.existsSync(SERIES_FILE)) {
+      fs.writeFileSync(SERIES_FILE, JSON.stringify(DEFAULT_SERIES_EPISODES, null, 2), 'utf-8');
+      return DEFAULT_SERIES_EPISODES;
+    }
+    const raw = fs.readFileSync(SERIES_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('Error reading series file:', err);
+    return DEFAULT_SERIES_EPISODES;
+  }
+}
+
+function saveSeries(episodes) {
+  try {
+    fs.writeFileSync(SERIES_FILE, JSON.stringify(episodes, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('Error saving series file:', err);
     return false;
   }
 }
@@ -88,9 +146,15 @@ app.post('/api/links/:id/click', (req, res) => {
   res.status(404).json({ error: 'Link not found' });
 });
 
+// 3. Get Tech Hacks Series Episodes
+app.get('/api/series', (req, res) => {
+  const episodes = getSeries();
+  res.json({ episodes });
+});
+
 // ── ADMIN API ENDPOINTS ──
 
-// 3. Admin Login
+// 4. Admin Login
 app.post('/api/admin/login', (req, res) => {
   const { password } = req.body;
   if (password === ADMIN_PASSWORD) {
@@ -99,18 +163,18 @@ app.post('/api/admin/login', (req, res) => {
   res.status(401).json({ error: 'Incorrect admin password' });
 });
 
-// 4. Verify Admin Session Token
+// 5. Verify Admin Session Token
 app.get('/api/admin/verify', requireAdmin, (req, res) => {
   res.json({ valid: true });
 });
 
-// 5. Get all links (active & inactive) with full analytics
+// 6. Get all links
 app.get('/api/admin/links', requireAdmin, (req, res) => {
   const links = getLinks().sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
   res.json({ links });
 });
 
-// 6. Add a new link
+// 7. Add a new link
 app.post('/api/admin/links', requireAdmin, (req, res) => {
   const { title, url, label, dmKeyword, description, previewImage, category, badge } = req.body;
 
@@ -118,7 +182,6 @@ app.post('/api/admin/links', requireAdmin, (req, res) => {
     return res.status(400).json({ error: 'Title and URL are required' });
   }
 
-  // URL format validation
   try {
     new URL(url);
   } catch (e) {
@@ -126,8 +189,6 @@ app.post('/api/admin/links', requireAdmin, (req, res) => {
   }
 
   const links = getLinks();
-
-  // Check duplicate URL warning flag
   const isDuplicate = links.some(l => l.url.toLowerCase() === url.toLowerCase());
 
   const newLink = {
@@ -153,7 +214,7 @@ app.post('/api/admin/links', requireAdmin, (req, res) => {
   res.json({ success: true, link: newLink, isDuplicate });
 });
 
-// 7. Edit existing link
+// 8. Edit existing link
 app.put('/api/admin/links/:id', requireAdmin, (req, res) => {
   const links = getLinks();
   const index = links.findIndex(l => l.id === req.params.id);
@@ -190,7 +251,7 @@ app.put('/api/admin/links/:id', requireAdmin, (req, res) => {
   res.json({ success: true, link: links[index] });
 });
 
-// 8. Toggle active/inactive status
+// 9. Toggle active/inactive status
 app.patch('/api/admin/links/:id/toggle', requireAdmin, (req, res) => {
   const links = getLinks();
   const index = links.findIndex(l => l.id === req.params.id);
@@ -206,7 +267,7 @@ app.patch('/api/admin/links/:id/toggle', requireAdmin, (req, res) => {
   res.json({ success: true, active: links[index].active });
 });
 
-// 9. Reorder links array
+// 10. Reorder links array
 app.patch('/api/admin/links/reorder', requireAdmin, (req, res) => {
   const { orderedIds } = req.body;
   if (!Array.isArray(orderedIds)) {
@@ -227,7 +288,6 @@ app.patch('/api/admin/links/reorder', requireAdmin, (req, res) => {
     }
   });
 
-  // Append any remaining links not in orderedIds
   linkMap.forEach(item => {
     item.sortOrder = reordered.length + 1;
     reordered.push(item);
@@ -237,7 +297,7 @@ app.patch('/api/admin/links/reorder', requireAdmin, (req, res) => {
   res.json({ success: true, links: reordered });
 });
 
-// 10. Delete a link
+// 11. Delete a link
 app.delete('/api/admin/links/:id', requireAdmin, (req, res) => {
   let links = getLinks();
   const initialLength = links.length;
@@ -248,7 +308,6 @@ app.delete('/api/admin/links/:id', requireAdmin, (req, res) => {
     return res.status(404).json({ error: 'Link not found' });
   }
 
-  // Re-index sort order
   links.forEach((l, idx) => {
     l.sortOrder = idx + 1;
   });
@@ -257,7 +316,7 @@ app.delete('/api/admin/links/:id', requireAdmin, (req, res) => {
   res.json({ success: true });
 });
 
-// 11. Auto-fetch webpage metadata (Title, Description, Favicon/Image)
+// 12. Auto-fetch webpage metadata
 app.get('/api/admin/fetch-meta', requireAdmin, async (req, res) => {
   const targetUrl = req.query.url;
   if (!targetUrl) {
@@ -300,7 +359,7 @@ app.get('*', (req, res) => {
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
-    res.send('MadeByParv API Server Running. Please run `npm run build` to generate frontend production files.');
+    res.send('MadeByParv API Server Running.');
   }
 });
 
