@@ -101,7 +101,7 @@ export function App() {
     } else if (lower === 'tools') {
       setLinksOpen(true);
     } else if (lower === 'contact') {
-      setLinksOpen(true);
+      window.location.href = 'mailto:madebyparv.ai@gmail.com';
     }
   };
 
