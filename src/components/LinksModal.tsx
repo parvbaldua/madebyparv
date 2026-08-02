@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { X, ExternalLink, MessageSquare, Check, Sparkles, Plus } from 'lucide-react';
-import { QUICK_LINKS, type QuickLink } from '../data/links';
+import { X, ExternalLink, MessageSquare, Check, Sparkles } from 'lucide-react';
+import { type QuickLink } from '../data/links';
 
 interface LinksModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onOpenAdmin?: () => void;
 }
 
-export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose, onOpenAdmin }) => {
-  const [links, setLinks] = useState<QuickLink[]>(QUICK_LINKS);
+export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose }) => {
+  const [links, setLinks] = useState<QuickLink[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Fetch live active links from database API whenever modal is opened
   useEffect(() => {
@@ -27,12 +26,12 @@ export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose, onOpenA
       const res = await fetch('/api/links');
       if (res.ok) {
         const data = await res.json();
-        if (data.links && data.links.length > 0) {
+        if (Array.isArray(data.links)) {
           setLinks(data.links);
         }
       }
     } catch (err) {
-      console.warn('Using local fallback links', err);
+      console.warn('Could not fetch live links', err);
     } finally {
       setIsLoading(false);
     }
@@ -88,46 +87,32 @@ export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose, onOpenA
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            {onOpenAdmin && (
-              <button
-                onClick={() => {
-                  onClose();
-                  onOpenAdmin();
-                }}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#00F0FF]/10 border border-[#00F0FF]/40 text-[#00F0FF] hover:bg-[#00F0FF]/20 text-xs font-inter uppercase tracking-wider transition-colors cursor-pointer"
-                title="Manage & Add Links in Admin"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add / Manage</span>
-              </button>
-            )}
-
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full hover:bg-white/10 text-white/70 hover:text-white transition-colors cursor-pointer"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 py-4 overflow-x-auto shrink-0 border-b border-white/5">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-xs font-inter uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
-                selectedCategory === cat
-                  ? 'bg-white text-black font-semibold shadow-md'
-                  : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {categories.length > 1 && (
+          <div className="flex items-center gap-2 py-4 overflow-x-auto shrink-0 border-b border-white/5">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-1.5 rounded-full text-xs font-inter uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+                  selectedCategory === cat
+                    ? 'bg-white text-black font-semibold shadow-md'
+                    : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Links Grid Container */}
         <div className="flex-1 overflow-y-auto pt-6 space-y-4 pr-1">
@@ -137,7 +122,7 @@ export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose, onOpenA
             </div>
           ) : filteredLinks.length === 0 ? (
             <div className="py-12 text-center text-xs text-white/40 font-inter">
-              No links available in this category.
+              No active links available.
             </div>
           ) : (
             filteredLinks.map((link) => (
