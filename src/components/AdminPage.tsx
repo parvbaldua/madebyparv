@@ -13,7 +13,6 @@ import {
   LogOut,
   BarChart2,
   Globe,
-  MessageSquare,
   AlertTriangle,
   Check,
   Smartphone,

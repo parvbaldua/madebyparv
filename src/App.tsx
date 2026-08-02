@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Settings } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { AdminPage } from './components/AdminPage';
