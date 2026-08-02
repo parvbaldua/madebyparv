@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Instagram, Youtube } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { AdminPage } from './components/AdminPage';
 
@@ -95,7 +95,7 @@ export function App() {
 
   return (
     <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden">
-      {/* ── Fullscreen Background Video (Fixed & Scaled) ── */}
+      {/* ── Fullscreen Background Video (Fixed & Visual-Only MP4) ── */}
       <video
         ref={videoRef}
         autoPlay
@@ -292,6 +292,30 @@ export function App() {
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
+
+          {/* ── Social Channels Links Row ── */}
+          <div className="flex items-center gap-3 mt-5 sm:mt-8 animate-fade-up-delay-4">
+            <a
+              href="https://www.instagram.com/madebyparv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+            >
+              <Instagram className="w-4 h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
+              <span>@madebyparv</span>
+            </a>
+
+            <a
+              href="https://www.youtube.com/@MadeByParv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+            >
+              <Youtube className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
+              <span>@MadeByParv</span>
+            </a>
+          </div>
+
         </div>
 
         {/* Bottom padding safety gap for mobile viewports */}
@@ -344,15 +368,17 @@ export function App() {
             </button>
           ))}
 
-          {/* Mobile Sound Control & Links Buttons */}
+          {/* Mobile Social & Links Buttons */}
           <div className="flex flex-col gap-3 w-full px-10 max-w-sm">
-            <button
-              onClick={toggleSound}
-              className="flex items-center justify-center gap-2 border border-white/30 bg-white/10 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-white/20 transition-all cursor-pointer rounded-full"
+            <a
+              href="https://www.instagram.com/madebyparv"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 border border-[#FF007A]/40 bg-[#FF007A]/10 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#FF007A]/20 transition-all cursor-pointer rounded-full"
             >
-              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4 text-[#00F0FF]" />}
-              <span>{isMuted ? 'Unmute Audio' : 'Audio Enabled'}</span>
-            </button>
+              <Instagram className="w-4 h-4 text-[#FF007A]" />
+              <span>Instagram @madebyparv</span>
+            </a>
 
             <button
               className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer rounded-full"
