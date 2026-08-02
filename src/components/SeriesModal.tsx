@@ -130,8 +130,8 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="font-podium text-2xl sm:text-3xl text-white uppercase tracking-wider">
-                  {"Tech Hacks : You Didn't Know You Needed"}
+                <h2 className="font-inter font-bold text-xl sm:text-2xl text-white uppercase tracking-wide">
+                  Tech Hacks : You Didn't Know You Needed
                 </h2>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#00F0FF]/20 border border-[#00F0FF]/40 text-[#00F0FF] text-[10px] font-bold uppercase tracking-wider">
                   {hacks.length} Hacks
@@ -151,7 +151,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
           </button>
         </div>
 
-        {/* ── RESPONSIVE YOUTUBE VIDEO GRID (1 col mobile, 2 col tablet, 3 col desktop) ── */}
+        {/* ── RESPONSIVE YOUTUBE VIDEO GRID ── */}
         <div className="flex-1 overflow-y-auto pt-6 pr-1">
           {isLoading ? (
             <div className="py-16 text-center text-xs text-white/40 font-inter">
@@ -196,7 +196,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
                   <div className="p-4 flex flex-col flex-1 justify-between gap-3">
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-[#FF0000] text-[10px] font-bold uppercase tracking-wider">
+                        <span className="px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-[#FF0000] text-[10px] font-bold uppercase tracking-wider font-inter">
                           Hack #{hack.hackNumber || idx + 1}
                         </span>
                         <Sparkles className="w-3.5 h-3.5 text-[#00F0FF]" />
