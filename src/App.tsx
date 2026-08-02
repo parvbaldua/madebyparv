@@ -229,12 +229,12 @@ export function App() {
 
           {/* CTA Row */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
-            {/* Primary CTA */}
+            {/* Primary CTA (YouTube Red default on mobile, red on hover desktop) */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-black hover:bg-neutral-900 px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-colors cursor-pointer"
+              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
