@@ -6,5 +6,61 @@
     "youtubeUrl": "https://youtube.com/shorts/6FGk_FJiTB8",
     "embedUrl": "https://www.youtube.com/embed/6FGk_FJiTB8",
     "description": "Tech Hacks : You Didn't Know You Needed - Part 1 by @MadeByParv"
+  },
+  {
+    "id": "hack-2",
+    "hackNumber": 2,
+    "title": "Tech Hack Part 2",
+    "youtubeUrl": "https://youtube.com/shorts/xaOCGT6Ixmw",
+    "embedUrl": "https://www.youtube.com/embed/xaOCGT6Ixmw",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 2 by @MadeByParv"
+  },
+  {
+    "id": "hack-3",
+    "hackNumber": 3,
+    "title": "Tech Hack Part 3",
+    "youtubeUrl": "https://youtube.com/shorts/MI0IwIkfF1o",
+    "embedUrl": "https://www.youtube.com/embed/MI0IwIkfF1o",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 3 by @MadeByParv"
+  },
+  {
+    "id": "hack-4",
+    "hackNumber": 4,
+    "title": "Tech Hack Part 4",
+    "youtubeUrl": "https://youtube.com/shorts/U98i77exyDI",
+    "embedUrl": "https://www.youtube.com/embed/U98i77exyDI",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 4 by @MadeByParv"
+  },
+  {
+    "id": "hack-5",
+    "hackNumber": 5,
+    "title": "Tech Hack Part 5",
+    "youtubeUrl": "https://youtube.com/shorts/9STJyvFlI_M",
+    "embedUrl": "https://www.youtube.com/embed/9STJyvFlI_M",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 5 by @MadeByParv"
+  },
+  {
+    "id": "hack-6",
+    "hackNumber": 6,
+    "title": "Tech Hack Part 6",
+    "youtubeUrl": "https://youtube.com/shorts/TSDw34nD9Hw",
+    "embedUrl": "https://www.youtube.com/embed/TSDw34nD9Hw",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 6 by @MadeByParv"
+  },
+  {
+    "id": "hack-7",
+    "hackNumber": 7,
+    "title": "Tech Hack Part 7",
+    "youtubeUrl": "https://youtube.com/shorts/jJzb2UlK_L0",
+    "embedUrl": "https://www.youtube.com/embed/jJzb2UlK_L0",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 7 by @MadeByParv"
+  },
+  {
+    "id": "hack-8",
+    "hackNumber": 8,
+    "title": "Tech Hack Part 8",
+    "youtubeUrl": "https://youtube.com/shorts/DGzOJPVGKgs",
+    "embedUrl": "https://www.youtube.com/embed/DGzOJPVGKgs",
+    "description": "Tech Hacks : You Didn't Know You Needed - Part 8 by @MadeByParv"
   }
 ]
