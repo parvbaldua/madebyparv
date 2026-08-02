@@ -414,14 +414,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToSite }) => {
                 className="w-full px-4 py-3.5 rounded-2xl bg-black/60 border border-white/20 text-white placeholder-white/30 text-sm focus:outline-none focus:border-[#00F0FF] transition-colors"
                 autoFocus
               />
-              <p className="text-[11px] text-white/40 mt-1">Default password: <code className="text-[#00F0FF]">parv2026</code></p>
             </div>
 
             <button
               type="submit"
               className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#B600A8] to-[#7621B0] hover:opacity-90 text-white text-xs font-semibold uppercase tracking-widest transition-all shadow-lg cursor-pointer"
             >
-              Log In to Phone Dashboard
+              Log In to Dashboard
             </button>
           </form>
 
@@ -463,7 +462,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToSite }) => {
             <h1 className="font-podium text-xl sm:text-2xl text-white uppercase tracking-wider">
               Link Manager
             </h1>
-            <p className="text-[10px] text-white/60">Self-Service Mobile Dashboard</p>
+            <p className="text-[10px] text-white/60">Self-Service Dashboard</p>
           </div>
         </div>
 
@@ -532,7 +531,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToSite }) => {
         <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs text-white/70">
           <div className="flex items-center gap-2.5">
             <Smartphone className="w-4 h-4 text-[#00F0FF] shrink-0" />
-            <span>Tip: Tap "Add to Home Screen" in your mobile browser to open this as a native app!</span>
+            <span>Tip: Bookmark this URL on your phone or tap "Add to Home Screen" to open as a private app!</span>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Settings } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { AdminPage } from './components/AdminPage';
 
@@ -95,7 +95,7 @@ export function App() {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white font-inter">
-      {/* ── Fullscreen Background Video (iOS Safari Native Play Button Blocked) ── */}
+      {/* ── Fullscreen Background Video (iOS Safari Compliant) ── */}
       <video
         ref={videoRef}
         autoPlay
@@ -171,18 +171,6 @@ export function App() {
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
               <span>FEATURED LINKS</span>
-            </button>
-
-            {/* Hidden Admin Access Gear Icon */}
-            <button
-              onClick={() => {
-                setView('admin');
-                window.location.hash = 'admin';
-              }}
-              className="p-3 text-white/30 hover:text-white transition-colors cursor-pointer"
-              title="Admin Link Manager"
-            >
-              <Settings className="w-4 h-4" />
             </button>
           </div>
 
@@ -378,18 +366,6 @@ export function App() {
               <Link2 className="w-4 h-4" />
               <span>DM LINKS &amp; RESOURCES</span>
             </button>
-
-            <button
-              className="flex items-center justify-center gap-2 text-white/50 text-xs uppercase tracking-widest py-2 hover:text-white transition-colors cursor-pointer"
-              onClick={() => {
-                setMenuOpen(false);
-                setView('admin');
-                window.location.hash = 'admin';
-              }}
-            >
-              <Settings className="w-3.5 h-3.5" />
-              <span>Admin Link Manager</span>
-            </button>
           </div>
         </nav>
       </div>
@@ -398,10 +374,6 @@ export function App() {
       <LinksModal
         isOpen={linksOpen}
         onClose={() => setLinksOpen(false)}
-        onOpenAdmin={() => {
-          setView('admin');
-          window.location.hash = 'admin';
-        }}
       />
     </div>
   );
