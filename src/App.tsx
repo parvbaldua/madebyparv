@@ -280,16 +280,16 @@ export function App() {
           {/* Stats Row */}
           <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-6 sm:mt-10 animate-fade-up-delay-4">
             <div>
-              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">100+</p>
-              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">AI Tutorials</p>
+              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">8/100</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Tech Hacks Series</p>
             </div>
             <div>
-              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">50+</p>
-              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Tools Reviewed</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">125+</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
             </div>
             <div>
-              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">10K+</p>
-              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Community</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">555+</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
         </div>
