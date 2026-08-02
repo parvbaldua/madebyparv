@@ -1,9 +1,30 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Instagram, Youtube } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { AdminPage } from './components/AdminPage';
 
 const NAV_LINKS = ['YouTube', 'Tutorials', 'Tools', 'Links', 'Contact'];
+
+// Custom Instagram SVG Component
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+    </svg>
+  );
+}
+
+// Custom YouTube SVG Component
+function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+      <path d="m10 15 5-3-5-3z"/>
+    </svg>
+  );
+}
 
 export function App() {
   const [view, setView] = useState<'public' | 'admin'>(() => {
@@ -100,7 +121,6 @@ export function App() {
         ref={videoRef}
         autoPlay
         muted
-        defaultMuted
         loop
         playsInline
         webkit-playsinline="true"
@@ -301,7 +321,7 @@ export function App() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
-              <Instagram className="w-4 h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
+              <InstagramIcon className="w-4 h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
               <span>@madebyparv</span>
             </a>
 
@@ -311,7 +331,7 @@ export function App() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
-              <Youtube className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
+              <YoutubeIcon className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
               <span>@MadeByParv</span>
             </a>
           </div>
@@ -376,7 +396,7 @@ export function App() {
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 border border-[#FF007A]/40 bg-[#FF007A]/10 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#FF007A]/20 transition-all cursor-pointer rounded-full"
             >
-              <Instagram className="w-4 h-4 text-[#FF007A]" />
+              <InstagramIcon className="w-4 h-4 text-[#FF007A]" />
               <span>Instagram @madebyparv</span>
             </a>
 
