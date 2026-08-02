@@ -37,6 +37,7 @@ export function App() {
   // Ensure continuous background video playback on mount
   useEffect(() => {
     if (videoRef.current && view === 'public') {
+      videoRef.current.muted = isMuted;
       videoRef.current.play().catch((err) => {
         console.warn('Autoplay started:', err);
       });
@@ -45,10 +46,10 @@ export function App() {
 
   const toggleSound = () => {
     if (videoRef.current) {
-      const newMuted = !isMuted;
-      videoRef.current.muted = newMuted;
-      setIsMuted(newMuted);
-      if (newMuted === false) {
+      const nextMuted = !videoRef.current.muted;
+      videoRef.current.muted = nextMuted;
+      setIsMuted(nextMuted);
+      if (!nextMuted) {
         videoRef.current.play().catch(() => {});
       }
     }
@@ -82,11 +83,11 @@ export function App() {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white font-inter">
-      {/* ── Fullscreen Background Video (Always Looping, No Controls, Audio Supported) ── */}
+      {/* ── Fullscreen Background Video (iOS Safari Complaint Autoplay Muted) ── */}
       <video
         ref={videoRef}
         autoPlay
-        muted={isMuted}
+        muted
         loop
         playsInline
         aria-hidden="true"
