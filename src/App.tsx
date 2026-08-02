@@ -94,8 +94,8 @@ export function App() {
   }
 
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-black text-white font-inter">
-      {/* ── Fullscreen Background Video (iOS Safari Compliant) ── */}
+    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden">
+      {/* ── Fullscreen Background Video (Fixed & Scaled) ── */}
       <video
         ref={videoRef}
         autoPlay
@@ -111,27 +111,27 @@ export function App() {
         disableRemotePlayback
         aria-hidden="true"
         tabIndex={-1}
-        className="absolute inset-0 h-full w-full object-cover lg:scale-[1.1] pointer-events-none select-none"
+        className="fixed inset-0 h-full w-full object-cover lg:scale-[1.1] pointer-events-none select-none"
         src="/hero-video.mp4"
       />
 
       {/* ── Dark gradient overlays for text readability ── */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40 pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-r from-black/80 via-black/50 to-transparent pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/40 pointer-events-none" />
 
       {/* ── Content Layer ── */}
-      <div className="relative z-10 flex h-full flex-col px-6 sm:px-10 lg:px-16">
+      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-10 lg:px-16 justify-between">
 
         {/* ── NAVBAR ── */}
-        <nav className="flex items-center justify-between py-5 lg:py-7">
+        <nav className="flex items-center justify-between py-4 sm:py-5 lg:py-7 shrink-0">
           {/* Left: Logo monogram + brand name */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
-              className="h-12 sm:h-14 w-auto object-contain shrink-0"
+              className="h-9 sm:h-12 lg:h-14 w-auto object-contain shrink-0"
             />
-            <span className="font-podium text-2xl sm:text-3xl font-bold uppercase tracking-wider">
+            <span className="font-podium text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider">
               MadeByParv
             </span>
           </div>
@@ -175,16 +175,16 @@ export function App() {
           </div>
 
           {/* Right: Mobile Controls (Sound + Hamburger) */}
-          <div className="md:hidden flex items-center gap-3">
+          <div className="md:hidden flex items-center gap-2.5">
             <button
               onClick={toggleSound}
               className="p-2 border border-white/30 rounded-full hover:opacity-70 transition-opacity cursor-pointer"
               title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
             >
               {isMuted ? (
-                <VolumeX className="w-5 h-5 text-white/60" />
+                <VolumeX className="w-4 h-4 text-white/60" />
               ) : (
-                <Volume2 className="w-5 h-5 text-[#00F0FF]" />
+                <Volume2 className="w-4 h-4 text-[#00F0FF]" />
               )}
             </button>
 
@@ -193,24 +193,21 @@ export function App() {
               onClick={() => setMenuOpen(true)}
             >
               <div className="space-y-1.5">
-                <div className="w-6 h-0.5 bg-white" />
-                <div className="w-6 h-0.5 bg-white" />
-                <div className="w-4 h-0.5 bg-white" />
+                <div className="w-5 h-0.5 bg-white" />
+                <div className="w-5 h-0.5 bg-white" />
+                <div className="w-3.5 h-0.5 bg-white" />
               </div>
             </button>
           </div>
         </nav>
 
-        {/* ── FLEX SPACER ── */}
-        <div className="flex-1" />
-
         {/* ── HERO CONTENT ── */}
-        <div className="pb-10 sm:pb-14 lg:pb-20">
+        <div className="py-4 sm:py-6 lg:pb-16 flex flex-col justify-center flex-1">
 
           {/* Tagline */}
-          <div className="flex items-center gap-2.5 mb-6 lg:mb-8 animate-fade-up">
-            <Crown className="w-4 h-4 text-white/70" />
-            <span className="font-inter text-white/70 text-xs sm:text-sm tracking-[0.3em] uppercase">
+          <div className="flex items-center gap-2 mb-3 sm:mb-6 animate-fade-up">
+            <Crown className="w-3.5 h-3.5 text-white/70" />
+            <span className="font-inter text-white/70 text-[10px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase">
               AI-First Education &amp; Media
             </span>
           </div>
@@ -218,7 +215,7 @@ export function App() {
           {/* Main Heading */}
           <h1
             className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1"
-            style={{ fontSize: 'clamp(2.8rem, 8vw, 7rem)' }}
+            style={{ fontSize: 'clamp(2.2rem, 6.5vh, 6.5rem)' }}
           >
             Learn.<br />
             Build.<br />
@@ -226,20 +223,18 @@ export function App() {
           </h1>
 
           {/* Subtext */}
-          <p className="font-inter text-white/70 text-sm sm:text-base leading-relaxed max-w-md mt-6 lg:mt-8 animate-fade-up-delay-2">
-            We make complex AI simple &amp;<br />
-            practical — not just information,<br />
-            <span className="text-white font-semibold">real-world action.</span>
+          <p className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md mt-3 sm:mt-6 animate-fade-up-delay-2">
+            We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
           {/* CTA Row */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-6 mt-8 lg:mt-10 animate-fade-up-delay-3">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
             {/* Primary CTA */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-3 sm:py-4 text-[11px] sm:text-xs tracking-widest uppercase transition-colors cursor-pointer"
+              className="group flex items-center gap-2 bg-black hover:bg-neutral-900 px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-colors cursor-pointer"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -248,7 +243,7 @@ export function App() {
             {/* Links Button */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-5 sm:px-7 py-3 sm:py-4 text-[11px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
+              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
@@ -257,47 +252,50 @@ export function App() {
             {/* Sound Toggle Pill */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-3 text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
+              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
             >
               {isMuted ? (
                 <>
-                  <VolumeX className="w-3.5 h-3.5 text-white/50" />
-                  <span>Unmute Audio</span>
+                  <VolumeX className="w-3 h-3 text-white/50" />
+                  <span>Unmute</span>
                 </>
               ) : (
                 <>
-                  <Volume2 className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
-                  <span>Audio Enabled</span>
+                  <Volume2 className="w-3 h-3 text-[#00F0FF] animate-pulse" />
+                  <span>Audio On</span>
                 </>
               )}
             </button>
 
             {/* Award badge */}
-            <div className="hidden sm:flex items-center gap-3">
-              <Award className="w-8 h-8 text-white/50" />
+            <div className="hidden lg:flex items-center gap-3">
+              <Award className="w-7 h-7 text-white/50" />
               <div>
-                <p className="font-inter text-white/60 text-xs tracking-wider uppercase">AI Education</p>
-                <p className="font-inter text-white/60 text-xs tracking-wider uppercase">Creator Studio</p>
+                <p className="font-inter text-white/60 text-[10px] tracking-wider uppercase">AI Education</p>
+                <p className="font-inter text-white/60 text-[10px] tracking-wider uppercase">Creator Studio</p>
               </div>
             </div>
           </div>
 
           {/* Stats Row */}
-          <div className="flex flex-wrap gap-6 sm:gap-12 lg:gap-16 mt-8 sm:mt-10 lg:mt-14 animate-fade-up-delay-4">
+          <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-6 sm:mt-10 animate-fade-up-delay-4">
             <div>
-              <p className="font-inter text-[#00F0FF] text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">100+</p>
-              <p className="font-inter text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">AI Tutorials</p>
+              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">100+</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">AI Tutorials</p>
             </div>
             <div>
-              <p className="font-inter text-white text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">50+</p>
-              <p className="font-inter text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">Tools Reviewed</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">50+</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Tools Reviewed</p>
             </div>
             <div>
-              <p className="font-inter text-white text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight">10K+</p>
-              <p className="font-inter text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">Community Members</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">10K+</p>
+              <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Community</p>
             </div>
           </div>
         </div>
+
+        {/* Bottom padding safety gap for mobile viewports */}
+        <div className="h-4 sm:h-6 shrink-0" />
       </div>
 
       {/* ── MOBILE FULLSCREEN MENU ── */}
@@ -312,7 +310,7 @@ export function App() {
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
-              className="h-12 w-auto object-contain shrink-0"
+              className="h-10 w-auto object-contain shrink-0"
             />
             <span className="font-podium text-2xl font-bold uppercase tracking-wider">
               MadeByParv
