@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/logo-monogram.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>MadeByParv - AI Education &amp; Media</title>
     <meta name="description" content="MadeByParv — We make AI practical. AI-first education and media company by Parv Baldua." />
 
@@ -14,8 +14,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+      /* Hide iOS WebKit Play Controls Overlay */
+      video::-webkit-media-controls,
+      video::-webkit-media-controls-start-playback-button,
+      video::-webkit-media-controls-play-button,
+      video::-webkit-media-controls-overlay-play-button,
+      video::-webkit-media-controls-enclosure {
+        display: none !important;
+        -webkit-appearance: none !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color: #000000; margin: 0; padding: 0; overflow: hidden;">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

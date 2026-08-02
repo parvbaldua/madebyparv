@@ -34,14 +34,26 @@ export function App() {
     };
   }, []);
 
-  // Ensure continuous background video playback on mount
+  // Guarantee continuous background video playback on mount & iOS Safari touch start
   useEffect(() => {
     if (videoRef.current && view === 'public') {
-      videoRef.current.muted = isMuted;
-      videoRef.current.play().catch((err) => {
-        console.warn('Autoplay started:', err);
-      });
+      videoRef.current.muted = true;
+      videoRef.current.play().catch(() => {});
     }
+
+    const handleFirstUserInteraction = () => {
+      if (videoRef.current && videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener('touchstart', handleFirstUserInteraction, { passive: true });
+    window.addEventListener('click', handleFirstUserInteraction, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleFirstUserInteraction);
+      window.removeEventListener('click', handleFirstUserInteraction);
+    };
   }, [view]);
 
   const toggleSound = () => {
@@ -83,13 +95,20 @@ export function App() {
 
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white font-inter">
-      {/* ── Fullscreen Background Video (iOS Safari Complaint Autoplay Muted) ── */}
+      {/* ── Fullscreen Background Video (iOS Safari Native Play Button Blocked) ── */}
       <video
         ref={videoRef}
         autoPlay
         muted
+        defaultMuted
         loop
         playsInline
+        webkit-playsinline="true"
+        x5-playsinline="true"
+        controls={false}
+        controlsList="nodownload nofullscreen noremoteplayback"
+        disablePictureInPicture
+        disableRemotePlayback
         aria-hidden="true"
         tabIndex={-1}
         className="absolute inset-0 h-full w-full object-cover lg:scale-[1.1] pointer-events-none select-none"
