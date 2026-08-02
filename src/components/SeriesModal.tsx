@@ -14,26 +14,10 @@ const DEFAULT_HACKS: TechHackVideo[] = [
   {
     id: 'hack-1',
     hackNumber: 1,
-    title: 'Automate 90% of Your Daily Content with AI',
-    youtubeUrl: 'https://www.youtube.com/@MadeByParv',
-    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Generate 30 days of social posts in 10 minutes using ChatGPT + Canva bulk create.',
-  },
-  {
-    id: 'hack-2',
-    hackNumber: 2,
-    title: 'Secret Midjourney V6 Prompting Hack',
-    youtubeUrl: 'https://www.youtube.com/@MadeByParv',
-    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Unlock photorealistic 8K image quality with hidden stylize parameters.',
-  },
-  {
-    id: 'hack-3',
-    hackNumber: 3,
-    title: 'Turn Any PDF Into AI Audio Podcast',
-    youtubeUrl: 'https://www.youtube.com/@MadeByParv',
-    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-    description: 'Use NotebookLM to turn 50-page research documents into 2-host audio discussions.',
+    title: 'Tech Hack Part 1',
+    youtubeUrl: 'https://youtube.com/shorts/6FGk_FJiTB8',
+    embedUrl: 'https://www.youtube.com/embed/6FGk_FJiTB8',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 1 by @MadeByParv',
   },
 ];
 
@@ -199,7 +183,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
             className="text-[#00F0FF] hover:underline flex items-center gap-1"
           >
             <span>Subscribe on YouTube @MadeByParv</span>
-            <ExternalLink className="w-3 h-3" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
       </div>
