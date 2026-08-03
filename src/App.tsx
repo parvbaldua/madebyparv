@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame, Music } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { SeriesModal } from './components/SeriesModal';
 import { AdminPage } from './components/AdminPage';
@@ -21,7 +21,7 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
 function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
       <path d="m10 15 5-3-5-3z"/>
     </svg>
   );
@@ -39,7 +39,10 @@ export function App() {
   const [linksOpen, setLinksOpen] = useState(false);
   const [seriesOpen, setSeriesOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [isPlayingTrack, setIsPlayingTrack] = useState(false);
+  
   const videoRef = useRef<HTMLVideoElement>(null);
+  const audioTrackRef = useRef<HTMLAudioElement>(null);
 
   // Hash listener for #admin URL support
   useEffect(() => {
@@ -80,6 +83,11 @@ export function App() {
   }, [view]);
 
   const toggleSound = () => {
+    if (isPlayingTrack && audioTrackRef.current) {
+      audioTrackRef.current.pause();
+      setIsPlayingTrack(false);
+    }
+
     if (videoRef.current) {
       const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
@@ -87,6 +95,29 @@ export function App() {
       if (!nextMuted) {
         videoRef.current.play().catch(() => {});
       }
+    }
+  };
+
+  const toggleOfficialTrack = () => {
+    if (audioTrackRef.current) {
+      if (isPlayingTrack) {
+        audioTrackRef.current.pause();
+        setIsPlayingTrack(false);
+      } else {
+        // Mute video sound to prioritize official music track
+        if (videoRef.current) {
+          videoRef.current.muted = true;
+          setIsMuted(true);
+        }
+        audioTrackRef.current.play().then(() => {
+          setIsPlayingTrack(true);
+        }).catch(() => {
+          // Fallback if track file is not present yet
+          toggleSound();
+        });
+      }
+    } else {
+      toggleSound();
     }
   };
 
@@ -120,7 +151,7 @@ export function App() {
 
   return (
     <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden">
-      {/* ── Fullscreen Background Video (Fixed & Visual-Only MP4) ── */}
+      {/* ── Fullscreen Background Video (Fixed & Scaled) ── */}
       <video
         ref={videoRef}
         autoPlay
@@ -137,6 +168,15 @@ export function App() {
         tabIndex={-1}
         className="fixed inset-0 h-full w-full object-cover lg:scale-[1.1] pointer-events-none select-none"
         src="/hero-video.mp4"
+      />
+
+      {/* ── Official MadeByParv Tech Hacks Audio Track Player ── */}
+      <audio
+        ref={audioTrackRef}
+        src="/madebyparv-theme.mp3"
+        loop
+        preload="auto"
+        onEnded={() => setIsPlayingTrack(false)}
       />
 
       {/* ── Dark gradient overlays for text readability ── */}
@@ -173,8 +213,22 @@ export function App() {
             ))}
           </div>
 
-          {/* Right: Sound Control + Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* Right: Sound Control + Official Track + Desktop CTA */}
+          <div className="hidden md:flex items-center gap-3">
+            {/* Play Official Track Pill Button */}
+            <button
+              onClick={toggleOfficialTrack}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+                isPlayingTrack
+                  ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
+                  : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
+              }`}
+              title="Play MadeByParv Official Tech Hacks Track"
+            >
+              <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white animate-bounce' : 'text-[#00F0FF]'}`} />
+              <span>{isPlayingTrack ? 'Playing Official Track' : 'Official Track'}</span>
+            </button>
+
             {/* Audio Sound Toggle */}
             <button
               onClick={toggleSound}
@@ -199,7 +253,17 @@ export function App() {
           </div>
 
           {/* Right: Mobile Controls (Sound + Hamburger) */}
-          <div className="md:hidden flex items-center gap-2.5">
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleOfficialTrack}
+              className={`p-2 border rounded-full transition-opacity cursor-pointer ${
+                isPlayingTrack ? 'border-[#FF007A] bg-[#FF007A]/20' : 'border-white/30'
+              }`}
+              title="Official Track"
+            >
+              <Music className={`w-4 h-4 ${isPlayingTrack ? 'text-[#FF007A]' : 'text-[#00F0FF]'}`} />
+            </button>
+
             <button
               onClick={toggleSound}
               className="p-2 border border-white/30 rounded-full hover:opacity-70 transition-opacity cursor-pointer"
@@ -280,6 +344,19 @@ export function App() {
             >
               <Flame className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
               <span>WATCH SERIES</span>
+            </button>
+
+            {/* Play Official Theme Track Pill */}
+            <button
+              onClick={toggleOfficialTrack}
+              className={`flex items-center gap-2 border px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
+                isPlayingTrack
+                  ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse'
+                  : 'bg-white/5 border-white/20 hover:bg-white/10 text-white/90'
+              }`}
+            >
+              <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white' : 'text-[#00F0FF]'}`} />
+              <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
             </button>
 
             {/* Sound Toggle Pill */}
@@ -411,6 +488,17 @@ export function App() {
 
           {/* Mobile Social & Links Buttons */}
           <div className="flex flex-col gap-3 w-full px-10 max-w-sm">
+            <button
+              onClick={() => {
+                setMenuOpen(false);
+                toggleOfficialTrack();
+              }}
+              className="flex items-center justify-center gap-2 border border-[#FF007A]/60 bg-[#FF007A]/20 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#FF007A]/40 transition-all cursor-pointer rounded-full font-semibold"
+            >
+              <Music className="w-4 h-4 text-[#00F0FF]" />
+              <span>{isPlayingTrack ? 'PAUSE OFFICIAL TRACK' : 'PLAY OFFICIAL TRACK'}</span>
+            </button>
+
             <button
               onClick={() => {
                 setMenuOpen(false);
