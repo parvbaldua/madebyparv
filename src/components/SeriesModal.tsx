@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ExternalLink, Sparkles, Play } from 'lucide-react';
+import { X, Youtube, ExternalLink, Sparkles, Play } from 'lucide-react';
 
 export interface TechHackVideo {
   id: string;
@@ -8,15 +8,6 @@ export interface TechHackVideo {
   youtubeUrl: string;
   embedUrl: string;
   description?: string;
-}
-
-// Official YouTube Solid Logo SVG Component
-function YoutubeIcon({ className = "w-6 h-6" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 0 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-    </svg>
-  );
 }
 
 const DEFAULT_HACKS: TechHackVideo[] = [
@@ -135,7 +126,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
         <div className="flex items-start justify-between pb-5 border-b border-white/10 shrink-0">
           <div className="flex items-start gap-3">
             <div className="p-3 bg-red-600/20 border border-red-500/40 rounded-2xl shrink-0 mt-0.5">
-              <YoutubeIcon className="w-6 h-6 text-[#FF0000]" />
+              <Youtube className="w-6 h-6 text-[#FF0000]" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
@@ -228,7 +219,7 @@ export const SeriesModal: React.FC<SeriesModalProps> = ({ isOpen, onClose }) => 
                       rel="noopener noreferrer"
                       className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-white/10 hover:bg-red-600 text-white text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer"
                     >
-                      <YoutubeIcon className="w-4 h-4 text-red-500 group-hover:text-white" />
+                      <Youtube className="w-4 h-4 text-red-500 group-hover:text-white" />
                       <span>Open YouTube</span>
                     </a>
                   </div>
