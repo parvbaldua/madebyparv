@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame, Music, Youtube } from 'lucide-react';
+import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame, Music, Play } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { SeriesModal } from './components/SeriesModal';
 import { AdminPage } from './components/AdminPage';
@@ -17,6 +17,16 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
+// Custom YouTube SVG Component
+function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
+      <path d="m10 15 5-3-5-3z"/>
+    </svg>
+  );
+}
+
 export function App() {
   const [view, setView] = useState<'public' | 'admin'>(() => {
     if (window.location.pathname.includes('/admin') || window.location.hash.includes('admin')) {
@@ -30,6 +40,7 @@ export function App() {
   const [seriesOpen, setSeriesOpen] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlayingTrack, setIsPlayingTrack] = useState(false);
+  const [showMusicPrompt, setShowMusicPrompt] = useState(false);
   
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioTrackRef = useRef<HTMLAudioElement>(null);
@@ -48,6 +59,14 @@ export function App() {
       window.removeEventListener('hashchange', checkRoute);
       window.removeEventListener('popstate', checkRoute);
     };
+  }, []);
+
+  // Show music suggestion toast after 2.5s on landing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMusicPrompt(true);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, []);
 
   // Guarantee continuous background video playback on mount & iOS Safari touch start
@@ -89,6 +108,7 @@ export function App() {
   };
 
   const toggleOfficialTrack = () => {
+    setShowMusicPrompt(false);
     if (audioTrackRef.current) {
       if (isPlayingTrack) {
         audioTrackRef.current.pause();
@@ -307,7 +327,7 @@ export function App() {
 
           {/* CTA Row */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
-            {/* Primary CTA (Initial Youtube Red button without inner logo) */}
+            {/* Primary CTA (YouTube Red default on mobile, red on hover desktop) */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
@@ -339,14 +359,19 @@ export function App() {
             {/* Play Official Theme Track Pill */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-2 border px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
+              className={`relative flex items-center gap-2 border px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
                 isPlayingTrack
-                  ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse'
-                  : 'bg-white/5 border-white/20 hover:bg-white/10 text-white/90'
+                  ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
+                  : 'bg-white/10 border-[#FF007A]/60 hover:bg-white/20 text-white font-semibold'
               }`}
             >
-              <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white' : 'text-[#00F0FF]'}`} />
+              <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white' : 'text-[#FF007A] animate-bounce'}`} />
               <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
+              {!isPlayingTrack && (
+                <span className="absolute -top-2 -right-1 px-1.5 py-0.5 rounded-full bg-[#FF007A] text-white text-[8px] font-bold uppercase tracking-wider animate-pulse">
+                  Listen
+                </span>
+              )}
             </button>
 
             {/* Sound Toggle Pill */}
@@ -419,7 +444,7 @@ export function App() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
-              <Youtube className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
+              <YoutubeIcon className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
               <span>@MadeByParv</span>
             </a>
           </div>
@@ -429,6 +454,54 @@ export function App() {
         {/* Bottom padding safety gap for mobile viewports */}
         <div className="h-4 sm:h-6 shrink-0" />
       </div>
+
+      {/* ── FLOATING OFFICIAL MUSIC TRACK SUGGESTION TOAST ── */}
+      {showMusicPrompt && !isPlayingTrack && (
+        <div className="fixed bottom-5 right-4 sm:right-8 z-40 max-w-sm w-[calc(100%-2rem)] bg-[#0C0C0C]/95 backdrop-blur-xl border border-[#FF007A]/50 rounded-2xl p-4 shadow-2xl shadow-pink-950/40 animate-fade-in font-inter">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF007A] to-[#B600A8] flex items-center justify-center text-white shrink-0 shadow-md">
+                <Music className="w-5 h-5 animate-bounce" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-[10px] uppercase tracking-wider text-[#00F0FF] font-semibold">
+                  Official Track Release 🎧
+                </span>
+                <h4 className="text-xs font-bold text-white uppercase tracking-wide">
+                  MadeByParv Tech Hacks Rap
+                </h4>
+                <p className="text-[10px] text-white/60">
+                  Tap play to listen to our official theme track!
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowMusicPrompt(false)}
+              className="text-white/40 hover:text-white p-1 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="mt-3 flex items-center gap-2">
+            <button
+              onClick={toggleOfficialTrack}
+              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#FF007A] to-[#B600A8] hover:opacity-90 text-white text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+            >
+              <Play className="w-3.5 h-3.5 fill-white" />
+              <span>Play Track Now</span>
+            </button>
+
+            <button
+              onClick={() => setShowMusicPrompt(false)}
+              className="px-3 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-white/60 hover:text-white text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer"
+            >
+              Maybe Later
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* ── MOBILE FULLSCREEN MENU ── */}
       <div
