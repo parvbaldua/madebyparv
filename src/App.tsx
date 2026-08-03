@@ -91,8 +91,10 @@ export function App() {
     };
   }, [view]);
 
+  // Crystal-clear, stutter-free video audio toggle with strict audio mutual exclusion
   const toggleSound = () => {
-    if (isPlayingTrack && audioTrackRef.current) {
+    // 1. Pause and release official theme track to prevent audio context collision
+    if (audioTrackRef.current) {
       audioTrackRef.current.pause();
       setIsPlayingTrack(false);
     }
@@ -101,33 +103,44 @@ export function App() {
       const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
       setIsMuted(nextMuted);
+      
       if (!nextMuted) {
-        videoRef.current.play().catch(() => {});
+        videoRef.current.volume = 1.0;
+        const playPromise = videoRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            console.warn("Video sound playback prevented:", err);
+          });
+        }
       }
     }
   };
 
+  // Crystal-clear official music track toggle
   const toggleOfficialTrack = () => {
     setShowMusicPrompt(false);
+
+    // 1. Always mute video sound when playing theme track to prevent audio glitching
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      setIsMuted(true);
+    }
+
     if (audioTrackRef.current) {
       if (isPlayingTrack) {
         audioTrackRef.current.pause();
         setIsPlayingTrack(false);
       } else {
-        // Mute video sound to prioritize official music track
-        if (videoRef.current) {
-          videoRef.current.muted = true;
-          setIsMuted(true);
+        audioTrackRef.current.currentTime = 0;
+        const playPromise = audioTrackRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            setIsPlayingTrack(true);
+          }).catch(() => {
+            toggleSound();
+          });
         }
-        audioTrackRef.current.play().then(() => {
-          setIsPlayingTrack(true);
-        }).catch(() => {
-          // Fallback if track file is not present yet
-          toggleSound();
-        });
       }
-    } else {
-      toggleSound();
     }
   };
 
@@ -161,14 +174,14 @@ export function App() {
 
   return (
     <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden select-none">
-      {/* ── Fullscreen Background Video (Fixed & Scaled, Preload Metadata for 0.5s FCP) ── */}
+      {/* ── Fullscreen Background Video (Fixed & Scaled, Preload Auto for Seamless Glitch-Free Audio) ── */}
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         webkit-playsinline="true"
         x5-playsinline="true"
         controls={false}
@@ -313,7 +326,7 @@ export function App() {
             </span>
           </div>
 
-          {/* Main Heading (Clamped independently for Tablet & Mobile) */}
+          {/* Main Heading */}
           <h1
             className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1"
             style={{ fontSize: 'clamp(2.2rem, 6.2vh, 6.5rem)' }}
