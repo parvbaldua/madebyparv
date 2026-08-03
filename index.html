@@ -2,20 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo-monogram.png" />
+    <link rel="icon" type="image/png" href="/logo-monogram.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>MadeByParv - AI Education &amp; Media</title>
     <meta name="description" content="MadeByParv — We make AI practical. AI-first education and media company by Parv Baldua." />
+
+    <!-- Performance Preconnect & Preload for 0.5s Lighthouse Load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="preload" as="image" href="/logo-monogram.png" />
 
     <!-- PODIUM Sharp (display font) -->
     <link href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11" rel="stylesheet">
 
     <!-- Inter (body font) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+      html, body {
+        background-color: #000000;
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
       /* Hide iOS WebKit Play Controls Overlay */
       video::-webkit-media-controls,
       video::-webkit-media-controls-start-playback-button,
@@ -29,7 +40,7 @@
       }
     </style>
   </head>
-  <body style="background-color: #000000; margin: 0; padding: 0; overflow: hidden;">
+  <body style="background-color: #000000; margin: 0; padding: 0;">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

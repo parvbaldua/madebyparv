@@ -161,13 +161,14 @@ export function App() {
 
   return (
     <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden">
-      {/* ── Fullscreen Background Video (Fixed & Scaled) ── */}
+      {/* ── Fullscreen Background Video (Fixed & Scaled, Preload Metadata for 0.5s FCP) ── */}
       <video
         ref={videoRef}
         autoPlay
         muted
         loop
         playsInline
+        preload="metadata"
         webkit-playsinline="true"
         x5-playsinline="true"
         controls={false}
@@ -180,12 +181,12 @@ export function App() {
         src="/hero-video.mp4"
       />
 
-      {/* ── Official MadeByParv Tech Hacks Audio Track Player ── */}
+      {/* ── Official MadeByParv Tech Hacks Audio Track Player (Preload None for Instant Page Load) ── */}
       <audio
         ref={audioTrackRef}
         src="/madebyparv-theme.mp3"
         loop
-        preload="auto"
+        preload="none"
         onEnded={() => setIsPlayingTrack(false)}
       />
 
@@ -203,6 +204,8 @@ export function App() {
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
+              width="48"
+              height="48"
               className="h-9 sm:h-12 lg:h-14 w-auto object-contain shrink-0"
             />
             <span className="font-podium text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider">
@@ -327,7 +330,7 @@ export function App() {
 
           {/* CTA Row */}
           <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
-            {/* Primary CTA (YouTube Red default on mobile, red on hover desktop) */}
+            {/* Primary CTA (Initial Youtube Red button without inner logo) */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
@@ -584,7 +587,7 @@ export function App() {
             </a>
 
             <button
-              className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer rounded-full"
+              className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#00F0FF]/10 transition-all cursor-pointer rounded-full"
               onClick={() => {
                 setMenuOpen(false);
                 setLinksOpen(true);
