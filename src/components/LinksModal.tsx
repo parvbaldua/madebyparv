@@ -62,7 +62,7 @@ export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 animate-fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10 animate-fade-in font-inter">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
@@ -78,7 +78,7 @@ export const LinksModal: React.FC<LinksModalProps> = ({ isOpen, onClose }) => {
               <Sparkles className="w-5 h-5 text-[#00F0FF]" />
             </div>
             <div>
-              <h2 className="font-podium text-2xl sm:text-3xl text-white uppercase tracking-wider">
+              <h2 className="font-inter font-bold text-xl sm:text-2xl text-white uppercase tracking-wider">
                 Featured Links &amp; DM Resources
               </h2>
               <p className="text-xs text-white/60 font-inter">

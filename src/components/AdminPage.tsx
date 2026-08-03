@@ -382,7 +382,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToSite }) => {
                 <Lock className="w-6 h-6 text-[#00F0FF]" />
               </div>
               <div>
-                <h1 className="font-podium text-2xl uppercase tracking-wider text-white">Admin Login</h1>
+                <h1 className="font-inter font-bold text-2xl uppercase tracking-wider text-white">Admin Login</h1>
                 <p className="text-xs text-white/60">MadeByParv Link Manager</p>
               </div>
             </div>
@@ -459,7 +459,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackToSite }) => {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="font-podium text-xl sm:text-2xl text-white uppercase tracking-wider">
+            <h1 className="font-inter font-bold text-xl sm:text-2xl text-white uppercase tracking-wider">
               Link Manager
             </h1>
             <p className="text-[10px] text-white/60">Self-Service Dashboard</p>
