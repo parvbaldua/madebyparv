@@ -17,12 +17,11 @@ function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-// Custom YouTube SVG Component
+// Official YouTube Solid Logo SVG Component
 function YoutubeIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/>
-      <path d="m10 15 5-3-5-3z"/>
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 0 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
     </svg>
   );
 }
@@ -322,9 +321,10 @@ export function App() {
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
+              className="group flex items-center gap-2.5 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
-              WATCH ON YOUTUBE
+              <YoutubeIcon className="w-4 h-4 text-white shrink-0" />
+              <span>WATCH ON YOUTUBE</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
 
@@ -527,7 +527,7 @@ export function App() {
                 setLinksOpen(true);
               }}
             >
-              <Link2 className="w-4 h-4" />
+              <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
             </button>
           </div>
