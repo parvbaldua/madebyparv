@@ -195,11 +195,11 @@ export function App() {
       <div className="fixed inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
       <div className="fixed inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-      {/* ── Content Layer (Fluid for Mobile, Tablet & Desktop) ── */}
-      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-8 md:px-12 lg:px-16 justify-between max-w-[1600px] mx-auto">
+      {/* ── Content Layer (Exact Desktop Padding & Tablet Specific Padding) ── */}
+      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-8 md:px-10 lg:px-16 justify-between">
 
         {/* ── NAVBAR ── */}
-        <nav className="flex items-center justify-between py-3.5 sm:py-5 lg:py-7 shrink-0">
+        <nav className="flex items-center justify-between py-4 sm:py-5 lg:py-7 shrink-0">
           {/* Left: Logo monogram + brand name */}
           <div className="flex items-center gap-2.5 sm:gap-3">
             <img
@@ -207,9 +207,9 @@ export function App() {
               alt="MadeByParv Logo"
               width="48"
               height="48"
-              className="h-8 sm:h-11 md:h-12 lg:h-14 w-auto object-contain shrink-0"
+              className="h-9 sm:h-12 lg:h-14 w-auto object-contain shrink-0"
             />
-            <span className="font-podium text-lg sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider">
+            <span className="font-podium text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider">
               MadeByParv
             </span>
           </div>
@@ -228,11 +228,11 @@ export function App() {
           </div>
 
           {/* Right: Desktop & Tablet Action Controls */}
-          <div className="hidden md:flex items-center gap-2.5 lg:gap-3">
+          <div className="hidden md:flex items-center gap-3">
             {/* Play Official Track Pill Button */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-full text-[11px] lg:text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+              className={`flex items-center gap-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
@@ -259,7 +259,7 @@ export function App() {
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-4 lg:px-6 py-2.5 lg:py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer"
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-5 lg:px-6 py-2.5 lg:py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
               <span>FEATURED LINKS</span>
@@ -303,37 +303,40 @@ export function App() {
           </div>
         </nav>
 
-        {/* ── HERO CONTENT (Tailored for Smartphone, Tablet & Desktop) ── */}
-        <div className="py-3 sm:py-6 lg:pb-16 flex flex-col justify-center flex-1">
+        {/* ── HERO CONTENT (Exact Desktop Sizing Preserved & Tailored Tablet Layout) ── */}
+        <div className="py-3 sm:py-5 lg:pb-16 flex flex-col justify-center flex-1">
 
           {/* Tagline */}
-          <div className="flex items-center gap-2 mb-2 sm:mb-4 lg:mb-6 animate-fade-up">
+          <div className="flex items-center gap-2 mb-3 sm:mb-6 animate-fade-up">
             <Crown className="w-3.5 h-3.5 text-white/70" />
             <span className="font-inter text-white/70 text-[10px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase">
               AI-First Education &amp; Media
             </span>
           </div>
 
-          {/* Main Heading (Fluid Responsive Typography for Mobile, Tablet & Desktop) */}
-          <h1 className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1 text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
+          {/* Main Heading (Original Desktop Font Clamp Preserved) */}
+          <h1
+            className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1"
+            style={{ fontSize: 'clamp(2.2rem, 6.5vh, 6.5rem)' }}
+          >
             Learn.<br />
             Build.<br />
             Create.
           </h1>
 
           {/* Subtext */}
-          <p className="font-inter text-white/70 text-xs sm:text-sm md:text-base leading-relaxed max-w-md mt-3 sm:mt-5 lg:mt-6 animate-fade-up-delay-2">
+          <p className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md mt-3 sm:mt-6 animate-fade-up-delay-2">
             We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
-          {/* CTA Row (Initial Clean Watch on YouTube CTA) */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 lg:gap-4 mt-4 sm:mt-6 lg:mt-8 animate-fade-up-delay-3">
+          {/* CTA Row (Original Desktop Spacing Preserved, Tablet Overlap Prevention) */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-4 sm:mt-8 animate-fade-up-delay-3">
             {/* Initial Watch on YouTube CTA */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 lg:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
+              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -342,7 +345,7 @@ export function App() {
             {/* Links Button */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-4 sm:px-5 lg:px-6 py-2.5 sm:py-3 lg:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
+              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
@@ -403,13 +406,13 @@ export function App() {
             </div>
           </div>
 
-          {/* Stats Row (Responsive Across Mobile, Tablet & Desktop) */}
-          <div className="flex items-center gap-6 sm:gap-10 md:gap-14 lg:gap-16 mt-5 sm:mt-8 lg:mt-10 animate-fade-up-delay-4">
+          {/* Stats Row (Original Large Desktop Sizing & Tablet Grid Alignment) */}
+          <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-5 sm:mt-10 animate-fade-up-delay-4">
             <button
               onClick={() => setSeriesOpen(true)}
               className="text-left group cursor-pointer"
             >
-              <p className="font-inter text-[#00F0FF] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight group-hover:underline">
+              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight group-hover:underline">
                 8/100
               </p>
               <p className="font-inter text-white/70 group-hover:text-white text-[8px] sm:text-xs tracking-widest uppercase mt-0.5 flex items-center gap-1">
@@ -418,17 +421,17 @@ export function App() {
               </p>
             </button>
             <div>
-              <p className="font-inter text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">125+</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">125+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
             </div>
             <div>
-              <p className="font-inter text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">555+</p>
+              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">555+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
 
-          {/* ── Social Channels Links Row (Initial Clean Youtube Icon) ── */}
-          <div className="flex items-center gap-3 mt-4 sm:mt-7 animate-fade-up-delay-4">
+          {/* ── Social Channels Links Row ── */}
+          <div className="flex items-center gap-3 mt-4 sm:mt-8 animate-fade-up-delay-4">
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
