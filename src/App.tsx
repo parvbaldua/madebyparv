@@ -161,7 +161,7 @@ export function App() {
   }
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto sm:overflow-hidden select-none">
+    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto select-none">
       {/* ── Fullscreen Background Video ── */}
       <video
         ref={videoRef}
@@ -195,8 +195,8 @@ export function App() {
       <div className="fixed inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
       <div className="fixed inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-      {/* ── Content Layer (Exact Desktop Padding & Tablet Specific Padding) ── */}
-      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-8 md:px-10 lg:px-16 justify-between">
+      {/* ── Content Layer (Initial Perfect Responsive Layout) ── */}
+      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-10 lg:px-16 justify-between">
 
         {/* ── NAVBAR ── */}
         <nav className="flex items-center justify-between py-4 sm:py-5 lg:py-7 shrink-0">
@@ -214,25 +214,25 @@ export function App() {
             </span>
           </div>
 
-          {/* Center: Desktop & Tablet Nav links */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          {/* Center: Desktop nav links */}
+          <div className="hidden md:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
               <button
                 key={link}
                 onClick={() => handleNavClick(link)}
-                className="font-inter text-xs lg:text-sm text-white/80 tracking-widest uppercase hover:text-white transition-colors cursor-pointer"
+                className="font-inter text-sm text-white/80 tracking-widest uppercase hover:text-white transition-colors cursor-pointer"
               >
                 {link}
               </button>
             ))}
           </div>
 
-          {/* Right: Desktop & Tablet Action Controls */}
+          {/* Right: Sound Control + Official Track + Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             {/* Play Official Track Pill Button */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-2 px-3.5 py-2 lg:px-4 lg:py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
@@ -240,13 +240,13 @@ export function App() {
               title="Play MadeByParv Official Tech Hacks Track"
             >
               <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white animate-bounce' : 'text-[#00F0FF]'}`} />
-              <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
+              <span>{isPlayingTrack ? 'Playing Official Track' : 'Official Track'}</span>
             </button>
 
             {/* Audio Sound Toggle */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-2.5 lg:p-3 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-3 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
               title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
             >
               {isMuted ? (
@@ -259,7 +259,7 @@ export function App() {
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-5 lg:px-6 py-2.5 lg:py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer"
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-6 py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
               <span>FEATURED LINKS</span>
@@ -303,8 +303,8 @@ export function App() {
           </div>
         </nav>
 
-        {/* ── HERO CONTENT (Exact Desktop Sizing Preserved & Tailored Tablet Layout) ── */}
-        <div className="py-3 sm:py-5 lg:pb-16 flex flex-col justify-center flex-1">
+        {/* ── HERO CONTENT ── */}
+        <div className="py-4 sm:py-6 lg:pb-16 flex flex-col justify-center flex-1 my-auto">
 
           {/* Tagline */}
           <div className="flex items-center gap-2 mb-3 sm:mb-6 animate-fade-up">
@@ -314,7 +314,7 @@ export function App() {
             </span>
           </div>
 
-          {/* Main Heading (Original Desktop Font Clamp Preserved) */}
+          {/* Main Heading */}
           <h1
             className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1"
             style={{ fontSize: 'clamp(2.2rem, 6.5vh, 6.5rem)' }}
@@ -329,9 +329,9 @@ export function App() {
             We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
-          {/* CTA Row (Original Desktop Spacing Preserved, Tablet Overlap Prevention) */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-4 sm:mt-8 animate-fade-up-delay-3">
-            {/* Initial Watch on YouTube CTA */}
+          {/* CTA Row */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
+            {/* Primary CTA (YouTube Red default on mobile, red on hover desktop) */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
@@ -406,8 +406,8 @@ export function App() {
             </div>
           </div>
 
-          {/* Stats Row (Original Large Desktop Sizing & Tablet Grid Alignment) */}
-          <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-5 sm:mt-10 animate-fade-up-delay-4">
+          {/* Stats Row */}
+          <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-6 sm:mt-10 animate-fade-up-delay-4">
             <button
               onClick={() => setSeriesOpen(true)}
               className="text-left group cursor-pointer"
@@ -431,7 +431,7 @@ export function App() {
           </div>
 
           {/* ── Social Channels Links Row ── */}
-          <div className="flex items-center gap-3 mt-4 sm:mt-8 animate-fade-up-delay-4">
+          <div className="flex items-center gap-3 mt-5 sm:mt-8 animate-fade-up-delay-4">
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
