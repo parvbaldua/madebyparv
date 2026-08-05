@@ -28,34 +28,68 @@ if (!fs.existsSync(DATA_DIR)) {
 
 const DEFAULT_SERIES_EPISODES = [
   {
-    id: 'ep-8',
-    episodeNumber: 8,
-    title: 'Automate 90% of Your Daily Content with AI',
-    platform: 'instagram',
-    embedUrl: 'https://www.instagram.com/madebyparv',
-    videoUrl: 'https://www.instagram.com/madebyparv',
-    description: 'Learn how to generate 30 days of social media posts in 10 minutes using ChatGPT + Canva bulk create.',
-    dmKeyword: 'AUTOMATE',
+    id: 'hack-1',
+    hackNumber: 1,
+    title: 'Tech Hack Part 1',
+    youtubeUrl: 'https://youtube.com/shorts/6FGk_FJiTB8',
+    embedUrl: 'https://www.youtube.com/embed/6FGk_FJiTB8',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 1 by @MadeByParv',
   },
   {
-    id: 'ep-7',
-    episodeNumber: 7,
-    title: 'Secret Midjourney V6 Prompting Hack',
-    platform: 'youtube',
-    embedUrl: 'https://www.youtube.com/@MadeByParv',
-    videoUrl: 'https://www.youtube.com/@MadeByParv',
-    description: 'Unlock photorealistic 8K image quality with hidden stylize parameters.',
-    dmKeyword: 'PROMPT',
+    id: 'hack-2',
+    hackNumber: 2,
+    title: 'Tech Hack Part 2',
+    youtubeUrl: 'https://youtube.com/shorts/xaOCGT6Ixmw',
+    embedUrl: 'https://www.youtube.com/embed/xaOCGT6Ixmw',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 2 by @MadeByParv',
   },
   {
-    id: 'ep-6',
-    episodeNumber: 6,
-    title: 'Free AI Voice Cloning Tutorial for Reels',
-    platform: 'instagram',
-    embedUrl: 'https://www.instagram.com/madebyparv',
-    videoUrl: 'https://www.instagram.com/madebyparv',
-    description: 'Clone your voice for free using ElevenLabs in under 2 minutes.',
-    dmKeyword: 'VOICE',
+    id: 'hack-3',
+    hackNumber: 3,
+    title: 'Tech Hack Part 3',
+    youtubeUrl: 'https://youtube.com/shorts/MI0IwIkfF1o',
+    embedUrl: 'https://www.youtube.com/embed/MI0IwIkfF1o',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 3 by @MadeByParv',
+  },
+  {
+    id: 'hack-4',
+    hackNumber: 4,
+    title: 'Tech Hack Part 4',
+    youtubeUrl: 'https://youtube.com/shorts/U98i77exyDI',
+    embedUrl: 'https://www.youtube.com/embed/U98i77exyDI',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 4 by @MadeByParv',
+  },
+  {
+    id: 'hack-5',
+    hackNumber: 5,
+    title: 'Tech Hack Part 5',
+    youtubeUrl: 'https://youtube.com/shorts/9STJyvFlI_M',
+    embedUrl: 'https://www.youtube.com/embed/9STJyvFlI_M',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 5 by @MadeByParv',
+  },
+  {
+    id: 'hack-6',
+    hackNumber: 6,
+    title: 'Tech Hack Part 6',
+    youtubeUrl: 'https://youtube.com/shorts/TSDw34nD9Hw',
+    embedUrl: 'https://www.youtube.com/embed/TSDw34nD9Hw',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 6 by @MadeByParv',
+  },
+  {
+    id: 'hack-7',
+    hackNumber: 7,
+    title: 'Tech Hack Part 7',
+    youtubeUrl: 'https://youtube.com/shorts/jJzb2UlK_L0',
+    embedUrl: 'https://www.youtube.com/embed/jJzb2UlK_L0',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 7 by @MadeByParv',
+  },
+  {
+    id: 'hack-8',
+    hackNumber: 8,
+    title: 'Tech Hack Part 8',
+    youtubeUrl: 'https://youtube.com/shorts/DGzOJPVGKgs',
+    embedUrl: 'https://www.youtube.com/embed/DGzOJPVGKgs',
+    description: 'Tech Hacks : You Didn\'t Know You Needed - Part 8 by @MadeByParv',
   },
 ];
 
@@ -93,6 +127,39 @@ function getSeries() {
   } catch (err) {
     console.error('Error reading series file:', err);
     return DEFAULT_SERIES_EPISODES;
+  }
+}
+
+const STATS_FILE = path.join(DATA_DIR, 'stats.json');
+
+const DEFAULT_STATS = {
+  seriesCount: 8,
+  seriesTotal: 100,
+  instaFam: 125,
+  youtubeSubs: 555
+};
+
+function getStats() {
+  try {
+    if (!fs.existsSync(STATS_FILE)) {
+      fs.writeFileSync(STATS_FILE, JSON.stringify(DEFAULT_STATS, null, 2), 'utf-8');
+      return DEFAULT_STATS;
+    }
+    const raw = fs.readFileSync(STATS_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error('Error reading stats file:', err);
+    return DEFAULT_STATS;
+  }
+}
+
+function saveStats(stats) {
+  try {
+    fs.writeFileSync(STATS_FILE, JSON.stringify(stats, null, 2), 'utf-8');
+    return true;
+  } catch (err) {
+    console.error('Error saving stats file:', err);
+    return false;
   }
 }
 
@@ -344,6 +411,182 @@ app.get('/api/admin/fetch-meta', requireAdmin, async (req, res) => {
     res.json({ success: false, message: 'Could not auto-fetch metadata from URL' });
   }
 });
+
+// Helper to construct YouTube embed URL
+function getYouTubeEmbedUrl(url) {
+  if (!url) return '';
+  let videoId = '';
+  if (url.includes('shorts/')) {
+    videoId = url.split('shorts/')[1]?.split('?')[0]?.split('/')[0];
+  } else if (url.includes('watch?v=')) {
+    videoId = url.split('watch?v=')[1]?.split('&')[0];
+  } else if (url.includes('youtu.be/')) {
+    videoId = url.split('youtu.be/')[1]?.split('?')[0];
+  } else if (url.includes('embed/')) {
+    return url;
+  }
+  return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+}
+
+// 13. Admin: Get all series episodes
+app.get('/api/admin/series', requireAdmin, (req, res) => {
+  const episodes = getSeries();
+  res.json({ episodes });
+});
+
+// 14. Admin: Add a new series episode / part
+app.post('/api/admin/series', requireAdmin, (req, res) => {
+  const { title, hackNumber, youtubeUrl, description } = req.body;
+
+  if (!youtubeUrl) {
+    return res.status(400).json({ error: 'YouTube URL is required' });
+  }
+
+  const episodes = getSeries();
+  const nextHackNum = hackNumber ? Number(hackNumber) : (episodes.length > 0 ? Math.max(...episodes.map(e => Number(e.hackNumber) || 0)) + 1 : 1);
+  const partTitle = title ? title.trim() : `Tech Hack Part ${nextHackNum}`;
+  const embedUrl = getYouTubeEmbedUrl(youtubeUrl.trim());
+
+  const newEpisode = {
+    id: `hack-${Date.now()}`,
+    hackNumber: nextHackNum,
+    title: partTitle,
+    youtubeUrl: youtubeUrl.trim(),
+    embedUrl,
+    description: description ? description.trim() : `Tech Hacks : You Didn't Know You Needed - Part ${nextHackNum} by @MadeByParv`,
+  };
+
+  episodes.push(newEpisode);
+  saveSeries(episodes);
+
+  res.json({ success: true, episode: newEpisode });
+});
+
+// 15. Admin: Edit existing series episode
+app.put('/api/admin/series/:id', requireAdmin, (req, res) => {
+  const episodes = getSeries();
+  const index = episodes.findIndex(e => e.id === req.params.id);
+
+  if (index === -1) {
+    return res.status(404).json({ error: 'Series episode not found' });
+  }
+
+  const { title, hackNumber, youtubeUrl, description } = req.body;
+
+  const current = episodes[index];
+  const updatedYoutubeUrl = youtubeUrl !== undefined ? youtubeUrl.trim() : current.youtubeUrl;
+  const updatedEmbedUrl = getYouTubeEmbedUrl(updatedYoutubeUrl);
+  const updatedHackNum = hackNumber !== undefined ? Number(hackNumber) : current.hackNumber;
+
+  episodes[index] = {
+    ...current,
+    hackNumber: updatedHackNum,
+    title: title !== undefined ? title.trim() : current.title,
+    youtubeUrl: updatedYoutubeUrl,
+    embedUrl: updatedEmbedUrl,
+    description: description !== undefined ? description.trim() : current.description,
+  };
+
+  saveSeries(episodes);
+  res.json({ success: true, episode: episodes[index] });
+});
+
+// 16. Admin: Delete series episode
+app.delete('/api/admin/series/:id', requireAdmin, (req, res) => {
+  let episodes = getSeries();
+  const initialLength = episodes.length;
+
+  episodes = episodes.filter(e => e.id !== req.params.id);
+
+  if (episodes.length === initialLength) {
+    return res.status(404).json({ error: 'Series episode not found' });
+  }
+
+  saveSeries(episodes);
+  res.json({ success: true });
+});
+
+// 17. Auto-fetch YouTube Shorts / Video metadata (Title, Description, Author)
+app.get('/api/admin/fetch-youtube-meta', requireAdmin, async (req, res) => {
+  const targetUrl = req.query.url;
+  if (!targetUrl) {
+    return res.status(400).json({ error: 'url parameter required' });
+  }
+
+  try {
+    const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent(targetUrl)}&format=json`;
+    const response = await fetch(oembedUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+      signal: AbortSignal.timeout(5000),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const title = data.title ? data.title.trim() : '';
+      const author = data.author_name ? data.author_name.trim() : 'MadeByParv';
+      const thumbnail = data.thumbnail_url || '';
+      const description = title ? `${title} by @${author}` : '';
+
+      return res.json({ success: true, title, description, thumbnail, author });
+    }
+
+    // Fallback: Webpage HTML scraping for og:title and og:description
+    const htmlResponse = await fetch(targetUrl, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+      signal: AbortSignal.timeout(5000),
+    });
+
+    const html = await htmlResponse.text();
+    const titleMatch = html.match(/<meta[^>]*property=["']og:title["'][^>]*content=["']([^"']+)["']/i) || html.match(/<title[^>]*>([^<]+)<\/title>/i);
+    const descMatch = html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i) || html.match(/<meta[^>]*name=["']description["'][^>]*content=["']([^"']+)["']/i);
+
+    const title = titleMatch ? titleMatch[1].trim() : '';
+    const description = descMatch ? descMatch[1].trim() : '';
+
+    res.json({ success: true, title, description });
+  } catch (err) {
+    res.json({ success: false, message: 'Could not auto-fetch YouTube metadata' });
+  }
+});
+
+// 18. Public API: Get site stats for homepage counters
+app.get('/api/stats', (req, res) => {
+  const stats = getStats();
+  const episodes = getSeries();
+  if (Array.isArray(episodes) && episodes.length > stats.seriesCount) {
+    stats.seriesCount = episodes.length;
+  }
+  res.json({ success: true, stats });
+});
+
+// 19. Admin API: Get stats
+app.get('/api/admin/stats', requireAdmin, (req, res) => {
+  const stats = getStats();
+  const episodes = getSeries();
+  if (Array.isArray(episodes) && episodes.length > stats.seriesCount) {
+    stats.seriesCount = episodes.length;
+  }
+  res.json({ success: true, stats });
+});
+
+// 20. Admin API: Update stats
+app.put('/api/admin/stats', requireAdmin, (req, res) => {
+  const { seriesCount, seriesTotal, instaFam, youtubeSubs } = req.body;
+  const current = getStats();
+
+  const updated = {
+    seriesCount: seriesCount !== undefined ? Number(seriesCount) : current.seriesCount,
+    seriesTotal: seriesTotal !== undefined ? Number(seriesTotal) : current.seriesTotal,
+    instaFam: instaFam !== undefined ? Number(instaFam) : current.instaFam,
+    youtubeSubs: youtubeSubs !== undefined ? Number(youtubeSubs) : current.youtubeSubs,
+  };
+
+  saveStats(updated);
+  res.json({ success: true, stats: updated });
+});
+
+
+
 
 // ── SERVE STATIC FRONTEND BUILD (VITE DIST) ──
 if (fs.existsSync(DIST_DIR)) {

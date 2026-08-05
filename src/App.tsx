@@ -3,6 +3,7 @@ import { ArrowUpRight, Crown, X, Link2, Volume2, VolumeX, Flame, Music, Play, Yo
 import { LinksModal } from './components/LinksModal';
 import { SeriesModal } from './components/SeriesModal';
 import { AdminPage } from './components/AdminPage';
+import { SlotCounter } from './components/SlotCounter';
 
 const NAV_LINKS = ['YouTube', 'Tutorials', 'Series', 'Tools', 'Links', 'Contact'];
 
@@ -32,8 +33,26 @@ export function App() {
   const [isPlayingTrack, setIsPlayingTrack] = useState(false);
   const [showMusicPrompt, setShowMusicPrompt] = useState(false);
   
+  const [stats, setStats] = useState({
+    seriesCount: 8,
+    seriesTotal: 100,
+    instaFam: 125,
+    youtubeSubs: 555,
+  });
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const audioTrackRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    fetch('/api/stats')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.stats) {
+          setStats(data.stats);
+        }
+      })
+      .catch(err => console.warn('Using default stats', err));
+  }, []);
 
   // Hash listener for #admin URL support
   useEffect(() => {
@@ -245,7 +264,7 @@ export function App() {
               title="Play MadeByParv Official Tech Hacks Track"
             >
               <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white animate-bounce' : 'text-[#00F0FF]'}`} />
-              <span>{isPlayingTrack ? 'Playing' : 'Track'}</span>
+              <span>{isPlayingTrack ? 'Playing' : 'TRACK'}</span>
             </button>
 
             {/* Sound Toggle */}
@@ -339,7 +358,7 @@ export function App() {
 
           {/* Subtext */}
           <p className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md animate-fade-up-delay-2">
-            We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
+            We make complex AI simple &amp; practical - not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
           {/* CTA Row — core buttons on all screens, secondary pills on sm+ */}
@@ -373,11 +392,10 @@ export function App() {
               <span>WATCH SERIES</span>
             </button>
 
-            {/* Official Track Pill — hidden on small phones, shown on sm+ (≥640px)
-                On phones these controls are in the navbar as icon buttons */}
+            {/* Official Track Pill — Visible on all screens */}
             <button
               onClick={toggleOfficialTrack}
-              className={`btn-interactive btn-glow-pink hidden sm:flex relative items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase cursor-pointer rounded-full ${
+              className={`btn-interactive btn-glow-pink flex relative items-center gap-1.5 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase cursor-pointer rounded-full ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/10 border-[#FF007A]/60 hover:bg-white/20 text-white font-semibold'
@@ -386,8 +404,8 @@ export function App() {
               <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white' : 'text-[#FF007A] animate-bounce'}`} />
               <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
               {!isPlayingTrack && (
-                <span className="absolute -top-2 -right-1 px-1.5 py-0.5 rounded-full bg-[#FF007A] text-white text-[8px] font-bold uppercase tracking-wider animate-pulse">
-                  Listen
+                <span className="px-1.5 py-0.5 rounded-full bg-[#FF007A] text-white text-[8px] font-bold uppercase tracking-wider animate-pulse ml-0.5">
+                  LISTEN
                 </span>
               )}
             </button>
@@ -412,14 +430,14 @@ export function App() {
 
           </div>
 
-          {/* Stats Row */}
+          {/* Stats Row with 3D Odometer Reel Slot Counter Animations (Slow 5-7 Sec Live Ticks) */}
           <div className="flex items-center gap-5 sm:gap-8 lg:gap-14 animate-fade-up-delay-4">
             <button
               onClick={() => setSeriesOpen(true)}
               className="text-left group cursor-pointer"
             >
               <p className="font-inter text-[#00F0FF] text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight group-hover:underline">
-                8/100
+                <SlotCounter target={stats.seriesCount} startFrom={0} suffix={`/${stats.seriesTotal}`} duration={5000} />
               </p>
               <p className="font-inter text-white/70 group-hover:text-white text-[8px] sm:text-xs tracking-widest uppercase mt-0.5 flex items-center gap-1">
                 <span>Tech Hacks Series</span>
@@ -427,50 +445,58 @@ export function App() {
               </p>
             </button>
             <div>
-              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">125+</p>
+              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">
+                <SlotCounter target={stats.instaFam} startFrom={Math.max(0, stats.instaFam - 10)} suffix="+" duration={6000} />
+              </p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
             </div>
             <div>
-              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">555+</p>
+              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">
+                <SlotCounter target={stats.youtubeSubs} startFrom={Math.max(0, stats.youtubeSubs - 10)} suffix="+" duration={7000} />
+              </p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
 
-          {/* Social Channels Row — UIverse Brutalist Buttons */}
-          <div className="flex items-center gap-4 sm:gap-6 animate-fade-up-delay-4 mt-1">
-            {/* Instagram Brutalist Button */}
-            <a
-              href="https://www.instagram.com/madebyparv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brutalist-button insta-btn"
-              title="Instagram @madebyparv"
-            >
-              <div className="brutalist-logo">
-                <InstagramIcon className="brutalist-icon text-[#FF007A]" />
-              </div>
-              <div className="brutalist-text">
-                <span>Follow on</span>
-                <span>@madebyparv</span>
-              </div>
-            </a>
+          {/* Social Channels Row — Brutalist Animated Glow Cards */}
+          <div className="flex flex-col gap-2 animate-fade-up-delay-4 mt-2">
+            <div className="flex items-center gap-3.5 sm:gap-4">
+              <a
+                href="https://www.instagram.com/madebyparv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brutalist-button insta-btn"
+                title="Instagram @madebyparv"
+              >
+                <div className="brutalist-logo">
+                  <InstagramIcon className="brutalist-icon text-[#FF007A]" />
+                  <div className="brutalist-text">
+                    <span>INSTAGRAM</span>
+                    <span>@madebyparv</span>
+                  </div>
+                </div>
+              </a>
 
-            {/* YouTube Brutalist Button */}
-            <a
-              href="https://www.youtube.com/@MadeByParv"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="brutalist-button youtube-btn"
-              title="YouTube @MadeByParv"
-            >
-              <div className="brutalist-logo">
-                <Youtube className="brutalist-icon text-[#FF0000]" />
-              </div>
-              <div className="brutalist-text">
-                <span>Subscribe to</span>
-                <span>@MadeByParv</span>
-              </div>
-            </a>
+              <a
+                href="https://www.youtube.com/@MadeByParv"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brutalist-button youtube-btn"
+                title="YouTube @MadeByParv"
+              >
+                <div className="brutalist-logo">
+                  <Youtube className="brutalist-icon text-[#FF0000]" />
+                  <div className="brutalist-text">
+                    <span>YOUTUBE</span>
+                    <span>@MadeByParv</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <p className="font-inter text-white/60 text-[9px] sm:text-xs tracking-wider uppercase flex items-center gap-1.5 pl-0.5 mt-0.5">
+              <span>Follow us on our socials for daily AI &amp; Tech updates</span>
+            </p>
           </div>
 
         </div>

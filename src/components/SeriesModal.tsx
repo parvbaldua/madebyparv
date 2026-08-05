@@ -10,7 +10,7 @@ export interface TechHackVideo {
   description?: string;
 }
 
-const DEFAULT_HACKS: TechHackVideo[] = [
+export const DEFAULT_HACKS: TechHackVideo[] = [
   {
     id: 'hack-1',
     hackNumber: 1,
