@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowUpRight, Award, Crown, X, Link2, Volume2, VolumeX, Flame, Music, Play, Youtube } from 'lucide-react';
+import { ArrowUpRight, Crown, X, Link2, Volume2, VolumeX, Flame, Music, Play, Youtube } from 'lucide-react';
 import { LinksModal } from './components/LinksModal';
 import { SeriesModal } from './components/SeriesModal';
 import { AdminPage } from './components/AdminPage';
@@ -237,7 +237,7 @@ export function App() {
             {/* Official Track Pill */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-1.5 px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-[10px] xl:text-[11px] font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+              className={`btn-interactive btn-glow-pink flex items-center gap-1.5 px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-[10px] xl:text-[11px] font-semibold uppercase tracking-wider border cursor-pointer ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
@@ -251,7 +251,7 @@ export function App() {
             {/* Sound Toggle */}
             <button
               onClick={toggleSound}
-              className="border border-white/30 hover:border-white/60 p-2 xl:p-2.5 rounded-full hover:bg-white/10 transition-all cursor-pointer text-white"
+              className="btn-interactive btn-glow-subtle border border-white/30 hover:border-white/60 p-2 xl:p-2.5 rounded-full hover:bg-white/10 cursor-pointer text-white"
               title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
             >
               {isMuted ? (
@@ -264,7 +264,7 @@ export function App() {
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-1.5 border border-white/30 hover:border-white/60 px-3 xl:px-5 py-2 xl:py-2.5 text-[10px] xl:text-[11px] tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap"
+              className="btn-interactive btn-glow-cyan flex items-center gap-1.5 border border-white/30 hover:border-white/60 px-3 xl:px-5 py-2 xl:py-2.5 text-[10px] xl:text-[11px] tracking-widest uppercase hover:bg-white/10 cursor-pointer whitespace-nowrap"
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
               <span>LINKS</span>
@@ -349,7 +349,7 @@ export function App() {
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
+              className="btn-interactive btn-glow-red group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -358,7 +358,7 @@ export function App() {
             {/* Links Button — always visible */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
+              className="btn-interactive btn-glow-cyan flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase text-[#00F0FF] cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
@@ -367,7 +367,7 @@ export function App() {
             {/* Watch Series — always visible */}
             <button
               onClick={() => setSeriesOpen(true)}
-              className="flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white cursor-pointer rounded-full"
+              className="btn-interactive btn-glow-purple flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase text-white cursor-pointer rounded-full"
             >
               <Flame className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
               <span>WATCH SERIES</span>
@@ -377,7 +377,7 @@ export function App() {
                 On phones these controls are in the navbar as icon buttons */}
             <button
               onClick={toggleOfficialTrack}
-              className={`hidden sm:flex relative items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
+              className={`btn-interactive btn-glow-pink hidden sm:flex relative items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase cursor-pointer rounded-full ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/10 border-[#FF007A]/60 hover:bg-white/20 text-white font-semibold'
@@ -395,7 +395,7 @@ export function App() {
             {/* Sound Toggle Pill — hidden on small phones, shown on sm+ */}
             <button
               onClick={toggleSound}
-              className="hidden sm:flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
+              className="btn-interactive btn-glow-subtle hidden sm:flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase text-white/80 cursor-pointer rounded-full"
             >
               {isMuted ? (
                 <>
@@ -410,14 +410,6 @@ export function App() {
               )}
             </button>
 
-            {/* Award badge — xl+ only (≥1280px) */}
-            <div className="hidden xl:flex items-center gap-3 ml-2">
-              <Award className="w-7 h-7 text-white/50" />
-              <div>
-                <p className="font-inter text-white/60 text-[10px] tracking-wider uppercase">AI Education</p>
-                <p className="font-inter text-white/60 text-[10px] tracking-wider uppercase">Creator Studio</p>
-              </div>
-            </div>
           </div>
 
           {/* Stats Row */}
@@ -450,7 +442,7 @@ export function App() {
               href="https://www.instagram.com/madebyparv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="btn-social flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider group"
             >
               <InstagramIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
               <span>@madebyparv</span>
@@ -460,7 +452,7 @@ export function App() {
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="btn-social flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider group"
             >
               <Youtube className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
               <span>@MadeByParv</span>
