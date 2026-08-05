@@ -161,19 +161,7 @@ export function App() {
   }
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-x-hidden select-none">
-
-      {/* ── Height-Aware Responsive CSS Variables ── */}
-      <style>{`
-        :root {
-          /* Fluid hero title: works perfectly from 14" laptop (768px height) to 32" monitor */
-          --hero-title-size: clamp(2.2rem, 4.5vmin + 0.8rem, 6rem);
-          /* Spacing that compresses on shorter viewports */
-          --hero-gap-sm: clamp(0.25rem, 0.8vh, 0.75rem);
-          --hero-gap-md: clamp(0.5rem, 1.2vh, 1.25rem);
-          --hero-gap-lg: clamp(0.75rem, 1.8vh, 1.75rem);
-        }
-      `}</style>
+    <div className="relative w-full bg-black text-white font-inter overflow-x-hidden select-none">
 
       {/* ── Fullscreen Background Video ── */}
       <video
@@ -208,44 +196,48 @@ export function App() {
       <div className="fixed inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent pointer-events-none" />
       <div className="fixed inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-      {/* ── Content Layer ── */}
-      <div className="relative z-10 flex h-screen h-[100dvh] flex-col px-4 sm:px-8 md:px-10 lg:px-16 max-w-[1600px] mx-auto overflow-y-auto">
+      {/* ── Content Layer ──
+           h-[100dvh] locks to viewport. overflow-y-auto lets content scroll if it truly overflows
+           (e.g. very short phones or zoomed browsers). On normal desktops/tablets it will NOT scroll. */}
+      <div className="relative z-10 flex h-[100dvh] flex-col px-4 sm:px-8 md:px-10 lg:px-16 max-w-[1600px] mx-auto overflow-y-auto">
 
-        {/* ── NAVBAR ── */}
-        <nav className="flex items-center justify-between shrink-0 gap-4" style={{ padding: 'clamp(0.6rem, 1.5vh, 1.5rem) 0' }}>
-          {/* Left: Logo monogram + brand name */}
-          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+        {/* ══════════════════════════════════════
+            NAVBAR — Responsive across all devices
+            ══════════════════════════════════════ */}
+        <nav className="flex items-center justify-between shrink-0 gap-3 py-3 sm:py-4 lg:py-5 xl:py-6">
+          {/* Left: Logo monogram + brand name — never shrinks */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
               width="48"
               height="48"
-              className="h-8 sm:h-10 lg:h-13 w-auto object-contain shrink-0"
+              className="h-8 sm:h-10 lg:h-12 w-auto object-contain shrink-0"
             />
-            <span className="font-podium text-lg sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider whitespace-nowrap">
+            <span className="font-podium text-lg sm:text-2xl lg:text-[1.65rem] xl:text-3xl font-bold uppercase tracking-wider whitespace-nowrap">
               MadeByParv
             </span>
           </div>
 
-          {/* Center: Desktop nav links — only on lg+ (1024px) to avoid overlap on tablets/small laptops */}
-          <div className="hidden lg:flex items-center gap-4 xl:gap-7 flex-1 justify-center min-w-0">
+          {/* Center: Desktop nav links — visible only at lg+ (≥1024px) */}
+          <div className="hidden lg:flex items-center gap-3 xl:gap-6 flex-1 justify-center min-w-0">
             {NAV_LINKS.map((link) => (
               <button
                 key={link}
                 onClick={() => handleNavClick(link)}
-                className="font-inter text-xs xl:text-sm text-white/80 tracking-widest uppercase hover:text-white transition-colors cursor-pointer whitespace-nowrap"
+                className="font-inter text-[11px] xl:text-xs text-white/80 tracking-[0.18em] uppercase hover:text-white transition-colors cursor-pointer whitespace-nowrap"
               >
                 {link}
               </button>
             ))}
           </div>
 
-          {/* Right: Sound Control + Official Track + Desktop CTA — only on lg+ */}
+          {/* Right: Desktop controls — visible only at lg+ (≥1024px) */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
-            {/* Play Official Track Pill Button */}
+            {/* Official Track Pill */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-1.5 px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-[11px] xl:text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-[10px] xl:text-[11px] font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
@@ -253,13 +245,13 @@ export function App() {
               title="Play MadeByParv Official Tech Hacks Track"
             >
               <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white animate-bounce' : 'text-[#00F0FF]'}`} />
-              <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
+              <span>{isPlayingTrack ? 'Playing' : 'Track'}</span>
             </button>
 
-            {/* Audio Sound Toggle */}
+            {/* Sound Toggle */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-2.5 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
+              className="border border-white/30 hover:border-white/60 p-2 xl:p-2.5 rounded-full hover:bg-white/10 transition-all cursor-pointer text-white"
               title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
             >
               {isMuted ? (
@@ -272,14 +264,14 @@ export function App() {
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-4 xl:px-6 py-2.5 text-[11px] xl:text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap"
+              className="flex items-center gap-1.5 border border-white/30 hover:border-white/60 px-3 xl:px-5 py-2 xl:py-2.5 text-[10px] xl:text-[11px] tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap"
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
-              <span>FEATURED LINKS</span>
+              <span>LINKS</span>
             </button>
           </div>
 
-          {/* Right: Mobile/Tablet Controls (Sound + Hamburger) — shows below lg (1024px) */}
+          {/* Right: Mobile/Tablet controls — visible below lg (<1024px) */}
           <div className="lg:hidden flex items-center gap-2 shrink-0">
             <button
               onClick={toggleOfficialTrack}
@@ -316,21 +308,29 @@ export function App() {
           </div>
         </nav>
 
-        {/* ── HERO CONTENT ── */}
-        <div className="flex flex-col justify-center flex-1 min-h-0">
+        {/* ══════════════════════════════════════
+            HERO CONTENT — Vertically centered, height-adaptive
+            ══════════════════════════════════════ */}
+        <div className="flex flex-col justify-center flex-1 min-h-0 gap-[clamp(0.35rem,1vh,0.75rem)] sm:gap-[clamp(0.5rem,1.2vh,1rem)] lg:gap-[clamp(0.6rem,1.5vh,1.25rem)]">
 
           {/* Tagline */}
-          <div className="flex items-center gap-2 animate-fade-up" style={{ marginBottom: 'var(--hero-gap-sm)' }}>
+          <div className="flex items-center gap-2 animate-fade-up">
             <Crown className="w-3.5 h-3.5 text-white/70" />
             <span className="font-inter text-white/70 text-[10px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase">
               AI-First Education &amp; Media
             </span>
           </div>
 
-          {/* Main Heading — vmin-based so it scales with BOTH width AND height */}
+          {/* Main Heading — vmin-based: scales with BOTH viewport width & height
+              Mobile (375×667): vmin=375 → 4.2*3.75+12.8 = 28.55px → clamped to 2rem (32px)
+              Tablet (768×1024): vmin=768 → 4.2*7.68+12.8 = 45.06px → 2.82rem
+              14.6" Laptop (1536×960): vmin=960 → 4.2*9.6+12.8 = 53.12px → 3.32rem
+              24" Desktop (1920×1080): vmin=1080 → 4.2*10.8+12.8 = 58.16px → 3.64rem
+              27" 1440p (2560×1440): vmin=1440 → 4.2*14.4+12.8 = 73.28px → 4.58rem
+              All within clamp(2rem, ..., 5.5rem) → perfect scaling ✓ */}
           <h1
             className="font-podium text-white uppercase leading-[0.93] tracking-tight animate-fade-up-delay-1"
-            style={{ fontSize: 'var(--hero-title-size)' }}
+            style={{ fontSize: 'clamp(2rem, 4.2vmin + 0.8rem, 5.5rem)' }}
           >
             Learn.<br />
             Build.<br />
@@ -338,39 +338,33 @@ export function App() {
           </h1>
 
           {/* Subtext */}
-          <p
-            className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md animate-fade-up-delay-2"
-            style={{ marginTop: 'var(--hero-gap-md)' }}
-          >
+          <p className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md animate-fade-up-delay-2">
             We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
-          {/* CTA Row */}
-          <div
-            className="flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-up-delay-3"
-            style={{ marginTop: 'var(--hero-gap-lg)' }}
-          >
-            {/* Primary CTA */}
+          {/* CTA Row — core buttons on all screens, secondary pills on sm+ */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 lg:gap-3 animate-fade-up-delay-3">
+            {/* Primary CTA — always visible */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
+              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
 
-            {/* Links Button */}
+            {/* Links Button — always visible */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
+              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
             </button>
 
-            {/* Tech Hacks Series CTA Pill */}
+            {/* Watch Series — always visible */}
             <button
               onClick={() => setSeriesOpen(true)}
               className="flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white cursor-pointer rounded-full"
@@ -379,10 +373,11 @@ export function App() {
               <span>WATCH SERIES</span>
             </button>
 
-            {/* Play Official Theme Track Pill */}
+            {/* Official Track Pill — hidden on small phones, shown on sm+ (≥640px)
+                On phones these controls are in the navbar as icon buttons */}
             <button
               onClick={toggleOfficialTrack}
-              className={`relative flex items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
+              className={`hidden sm:flex relative items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/10 border-[#FF007A]/60 hover:bg-white/20 text-white font-semibold'
@@ -397,10 +392,10 @@ export function App() {
               )}
             </button>
 
-            {/* Sound Toggle Pill */}
+            {/* Sound Toggle Pill — hidden on small phones, shown on sm+ */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
+              className="hidden sm:flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
             >
               {isMuted ? (
                 <>
@@ -415,8 +410,8 @@ export function App() {
               )}
             </button>
 
-            {/* Award badge */}
-            <div className="hidden lg:flex items-center gap-3 ml-2">
+            {/* Award badge — xl+ only (≥1280px) */}
+            <div className="hidden xl:flex items-center gap-3 ml-2">
               <Award className="w-7 h-7 text-white/50" />
               <div>
                 <p className="font-inter text-white/60 text-[10px] tracking-wider uppercase">AI Education</p>
@@ -426,15 +421,12 @@ export function App() {
           </div>
 
           {/* Stats Row */}
-          <div
-            className="flex items-center gap-5 sm:gap-10 lg:gap-14 animate-fade-up-delay-4"
-            style={{ marginTop: 'var(--hero-gap-lg)' }}
-          >
+          <div className="flex items-center gap-5 sm:gap-8 lg:gap-14 animate-fade-up-delay-4">
             <button
               onClick={() => setSeriesOpen(true)}
               className="text-left group cursor-pointer"
             >
-              <p className="font-inter text-[#00F0FF] text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight group-hover:underline">
+              <p className="font-inter text-[#00F0FF] text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight group-hover:underline">
                 8/100
               </p>
               <p className="font-inter text-white/70 group-hover:text-white text-[8px] sm:text-xs tracking-widest uppercase mt-0.5 flex items-center gap-1">
@@ -443,27 +435,24 @@ export function App() {
               </p>
             </button>
             <div>
-              <p className="font-inter text-white text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight">125+</p>
+              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">125+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
             </div>
             <div>
-              <p className="font-inter text-white text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight">555+</p>
+              <p className="font-inter text-white text-lg sm:text-2xl lg:text-4xl font-bold tracking-tight">555+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
 
-          {/* ── Social Channels Links Row ── */}
-          <div
-            className="flex items-center gap-3 animate-fade-up-delay-4"
-            style={{ marginTop: 'var(--hero-gap-md)' }}
-          >
+          {/* Social Channels Row */}
+          <div className="flex items-center gap-2 sm:gap-3 animate-fade-up-delay-4">
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
-              <InstagramIcon className="w-4 h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
+              <InstagramIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
               <span>@madebyparv</span>
             </a>
 
@@ -471,45 +460,47 @@ export function App() {
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
-              <Youtube className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
+              <Youtube className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
               <span>@MadeByParv</span>
             </a>
           </div>
 
         </div>
 
-        {/* Bottom breathing room */}
-        <div className="shrink-0" style={{ height: 'clamp(0.5rem, 1.5vh, 1.5rem)' }} />
+        {/* Bottom safety spacer */}
+        <div className="shrink-0 h-2 sm:h-3 lg:h-4" />
       </div>
 
-      {/* ── ULTRA-PREMIUM GLASSMORPHISM MUSIC SUGGESTION CARD ── */}
+      {/* ══════════════════════════════════════
+          GLASSMORPHISM MUSIC SUGGESTION CARD
+          ══════════════════════════════════════ */}
       {showMusicPrompt && !isPlayingTrack && (
-        <div className="fixed bottom-4 left-3 right-3 sm:left-auto sm:right-8 sm:bottom-6 z-40 max-w-sm w-auto bg-white/[0.08] backdrop-blur-2xl border border-white/20 rounded-2xl p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.8)] animate-fade-in font-inter group transition-all duration-300 hover:border-[#FF007A]/60">
+        <div className="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-5 z-40 max-w-sm w-auto bg-white/[0.08] backdrop-blur-2xl border border-white/20 rounded-2xl p-4 sm:p-5 shadow-[0_16px_40px_rgba(0,0,0,0.8)] animate-fade-in font-inter group transition-all duration-300 hover:border-[#FF007A]/60">
           
-          {/* Subtle Ambient Gradient Glow Backdrop */}
+          {/* Ambient Gradient Glow */}
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#FF007A]/15 via-transparent to-[#00F0FF]/15 pointer-events-none" />
 
           <div className="relative z-10 flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#FF007A] to-[#00F0FF] p-[1px] shadow-lg shrink-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-gradient-to-tr from-[#FF007A] to-[#00F0FF] p-[1px] shadow-lg shrink-0">
                 <div className="w-full h-full rounded-[11px] bg-black/80 backdrop-blur-md flex items-center justify-center text-white">
-                  <Music className="w-5 h-5 text-[#00F0FF] animate-bounce" />
+                  <Music className="w-4 h-4 sm:w-5 sm:h-5 text-[#00F0FF] animate-bounce" />
                 </div>
               </div>
               
               <div className="flex flex-col">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-[#00F0FF] animate-ping" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#00F0FF]">
+                  <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#00F0FF] animate-ping" />
+                  <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-widest text-[#00F0FF]">
                     Official Theme Track
                   </span>
                 </div>
-                <h4 className="text-xs sm:text-sm font-bold text-white uppercase tracking-wide mt-0.5">
+                <h4 className="text-[11px] sm:text-sm font-bold text-white uppercase tracking-wide mt-0.5">
                   MadeByParv Tech Hacks
                 </h4>
-                <p className="text-[10px] text-white/60 mt-0.5">
+                <p className="text-[9px] sm:text-[10px] text-white/60 mt-0.5">
                   Indian Rap A.I. Edition
                 </p>
               </div>
@@ -523,10 +514,10 @@ export function App() {
             </button>
           </div>
 
-          <div className="relative z-10 mt-4 flex items-center gap-2.5">
+          <div className="relative z-10 mt-3 sm:mt-4 flex items-center gap-2">
             <button
               onClick={toggleOfficialTrack}
-              className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#FF007A] via-[#B600A8] to-[#00F0FF] hover:brightness-110 text-white text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-transform hover:scale-[1.02]"
+              className="flex-1 py-2 sm:py-2.5 rounded-xl bg-gradient-to-r from-[#FF007A] via-[#B600A8] to-[#00F0FF] hover:brightness-110 text-white text-[11px] sm:text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg cursor-pointer transition-transform hover:scale-[1.02]"
             >
               <Play className="w-3.5 h-3.5 fill-white" />
               <span>Play Official Track</span>
@@ -534,7 +525,7 @@ export function App() {
 
             <button
               onClick={() => setShowMusicPrompt(false)}
-              className="px-3.5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white/70 hover:text-white text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer"
+              className="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white/70 hover:text-white text-[11px] sm:text-xs font-medium uppercase tracking-wider transition-colors cursor-pointer"
             >
               Dismiss
             </button>
@@ -542,21 +533,23 @@ export function App() {
         </div>
       )}
 
-      {/* ── MOBILE FULLSCREEN MENU ── */}
+      {/* ══════════════════════════════════════
+          MOBILE/TABLET FULLSCREEN MENU
+          ══════════════════════════════════════ */}
       <div
         className={`fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex flex-col transition-all duration-500 ${
           menuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
         }`}
       >
         {/* Menu Header */}
-        <div className="flex items-center justify-between px-6 py-5">
+        <div className="flex items-center justify-between px-5 sm:px-6 py-4 sm:py-5">
           <div className="flex items-center gap-3">
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
-              className="h-10 w-auto object-contain shrink-0"
+              className="h-9 sm:h-10 w-auto object-contain shrink-0"
             />
-            <span className="font-podium text-2xl font-bold uppercase tracking-wider">
+            <span className="font-podium text-xl sm:text-2xl font-bold uppercase tracking-wider">
               MadeByParv
             </span>
           </div>
@@ -568,12 +561,12 @@ export function App() {
           </button>
         </div>
 
-        {/* Menu Nav */}
-        <nav className="flex flex-col items-center justify-center flex-1 gap-8">
+        {/* Menu Nav — scrollable on short screens */}
+        <nav className="flex flex-col items-center justify-center flex-1 gap-5 sm:gap-8 overflow-y-auto py-4">
           {NAV_LINKS.map((link, i) => (
             <button
               key={link}
-              className="font-podium text-4xl sm:text-5xl text-white uppercase tracking-wider hover:opacity-70 transition-all duration-500 cursor-pointer"
+              className="font-podium text-3xl sm:text-5xl text-white uppercase tracking-wider hover:opacity-70 transition-all duration-500 cursor-pointer"
               style={{
                 opacity: menuOpen ? 1 : 0,
                 transform: menuOpen ? 'translateY(0)' : 'translateY(20px)',
@@ -588,14 +581,14 @@ export function App() {
             </button>
           ))}
 
-          {/* Mobile Social & Links Buttons */}
-          <div className="flex flex-col gap-3 w-full px-10 max-w-sm">
+          {/* Menu Action Buttons */}
+          <div className="flex flex-col gap-2.5 sm:gap-3 w-full px-8 sm:px-10 max-w-sm">
             <button
               onClick={() => {
                 setMenuOpen(false);
                 toggleOfficialTrack();
               }}
-              className="flex items-center justify-center gap-2 border border-[#FF007A]/60 bg-[#FF007A]/20 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#FF007A]/40 transition-all cursor-pointer rounded-full font-semibold"
+              className="flex items-center justify-center gap-2 border border-[#FF007A]/60 bg-[#FF007A]/20 text-white px-5 py-3 sm:py-3.5 text-[11px] sm:text-xs tracking-widest uppercase hover:bg-[#FF007A]/40 transition-all cursor-pointer rounded-full font-semibold"
             >
               <Music className="w-4 h-4 text-[#00F0FF]" />
               <span>{isPlayingTrack ? 'PAUSE OFFICIAL TRACK' : 'PLAY OFFICIAL TRACK'}</span>
@@ -606,7 +599,7 @@ export function App() {
                 setMenuOpen(false);
                 setSeriesOpen(true);
               }}
-              className="flex items-center justify-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#B600A8]/40 transition-all cursor-pointer rounded-full font-semibold"
+              className="flex items-center justify-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 text-white px-5 py-3 sm:py-3.5 text-[11px] sm:text-xs tracking-widest uppercase hover:bg-[#B600A8]/40 transition-all cursor-pointer rounded-full font-semibold"
             >
               <Flame className="w-4 h-4 text-[#00F0FF]" />
               <span>WATCH TECH HACKS SERIES</span>
@@ -616,14 +609,14 @@ export function App() {
               href="https://www.instagram.com/madebyparv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 border border-[#FF007A]/40 bg-[#FF007A]/10 text-white px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#FF007A]/20 transition-all cursor-pointer rounded-full"
+              className="flex items-center justify-center gap-2 border border-[#FF007A]/40 bg-[#FF007A]/10 text-white px-5 py-3 sm:py-3.5 text-[11px] sm:text-xs tracking-widest uppercase hover:bg-[#FF007A]/20 transition-all cursor-pointer rounded-full"
             >
               <InstagramIcon className="w-4 h-4 text-[#FF007A]" />
               <span>Instagram @madebyparv</span>
             </a>
 
             <button
-              className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-6 py-3.5 text-xs tracking-widest uppercase hover:bg-[#00F0FF]/10 transition-all cursor-pointer rounded-full"
+              className="flex items-center justify-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/80 text-[#00F0FF] px-5 py-3 sm:py-3.5 text-[11px] sm:text-xs tracking-widest uppercase hover:bg-[#00F0FF]/10 transition-all cursor-pointer rounded-full"
               onClick={() => {
                 setMenuOpen(false);
                 setLinksOpen(true);
