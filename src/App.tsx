@@ -161,7 +161,20 @@ export function App() {
   }
 
   return (
-    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-y-auto select-none">
+    <div className="relative min-h-screen min-h-[100dvh] w-full bg-black text-white font-inter overflow-x-hidden select-none">
+
+      {/* ── Height-Aware Responsive CSS Variables ── */}
+      <style>{`
+        :root {
+          /* Fluid hero title: works perfectly from 14" laptop (768px height) to 32" monitor */
+          --hero-title-size: clamp(2.2rem, 4.5vmin + 0.8rem, 6rem);
+          /* Spacing that compresses on shorter viewports */
+          --hero-gap-sm: clamp(0.25rem, 0.8vh, 0.75rem);
+          --hero-gap-md: clamp(0.5rem, 1.2vh, 1.25rem);
+          --hero-gap-lg: clamp(0.75rem, 1.8vh, 1.75rem);
+        }
+      `}</style>
+
       {/* ── Fullscreen Background Video ── */}
       <video
         ref={videoRef}
@@ -192,47 +205,47 @@ export function App() {
       />
 
       {/* ── Dark gradient overlays for text readability ── */}
-      <div className="fixed inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent pointer-events-none" />
+      <div className="fixed inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent pointer-events-none" />
       <div className="fixed inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/40 pointer-events-none" />
 
-      {/* ── Content Layer (Initial Perfect Responsive Layout) ── */}
-      <div className="relative z-10 flex min-h-screen min-h-[100dvh] flex-col px-4 sm:px-10 lg:px-16 justify-between">
+      {/* ── Content Layer ── */}
+      <div className="relative z-10 flex h-screen h-[100dvh] flex-col px-4 sm:px-8 md:px-10 lg:px-16 max-w-[1600px] mx-auto overflow-y-auto">
 
         {/* ── NAVBAR ── */}
-        <nav className="flex items-center justify-between py-4 sm:py-5 lg:py-7 shrink-0">
+        <nav className="flex items-center justify-between shrink-0 gap-4" style={{ padding: 'clamp(0.6rem, 1.5vh, 1.5rem) 0' }}>
           {/* Left: Logo monogram + brand name */}
-          <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <img
               src="/logo-monogram.png"
               alt="MadeByParv Logo"
               width="48"
               height="48"
-              className="h-9 sm:h-12 lg:h-14 w-auto object-contain shrink-0"
+              className="h-8 sm:h-10 lg:h-13 w-auto object-contain shrink-0"
             />
-            <span className="font-podium text-xl sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider">
+            <span className="font-podium text-lg sm:text-2xl lg:text-3xl font-bold uppercase tracking-wider whitespace-nowrap">
               MadeByParv
             </span>
           </div>
 
-          {/* Center: Desktop nav links */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Center: Desktop nav links — only on lg+ (1024px) to avoid overlap on tablets/small laptops */}
+          <div className="hidden lg:flex items-center gap-4 xl:gap-7 flex-1 justify-center min-w-0">
             {NAV_LINKS.map((link) => (
               <button
                 key={link}
                 onClick={() => handleNavClick(link)}
-                className="font-inter text-sm text-white/80 tracking-widest uppercase hover:text-white transition-colors cursor-pointer"
+                className="font-inter text-xs xl:text-sm text-white/80 tracking-widest uppercase hover:text-white transition-colors cursor-pointer whitespace-nowrap"
               >
                 {link}
               </button>
             ))}
           </div>
 
-          {/* Right: Sound Control + Official Track + Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          {/* Right: Sound Control + Official Track + Desktop CTA — only on lg+ */}
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
             {/* Play Official Track Pill Button */}
             <button
               onClick={toggleOfficialTrack}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3 py-2 xl:px-4 xl:py-2.5 rounded-full text-[11px] xl:text-xs font-semibold uppercase tracking-wider transition-all border cursor-pointer ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/5 border-white/20 text-white/90 hover:bg-white/10 hover:border-white/40'
@@ -240,13 +253,13 @@ export function App() {
               title="Play MadeByParv Official Tech Hacks Track"
             >
               <Music className={`w-3.5 h-3.5 ${isPlayingTrack ? 'text-white animate-bounce' : 'text-[#00F0FF]'}`} />
-              <span>{isPlayingTrack ? 'Playing Official Track' : 'Official Track'}</span>
+              <span>{isPlayingTrack ? 'Playing Track' : 'Official Track'}</span>
             </button>
 
             {/* Audio Sound Toggle */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-3 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 p-2.5 rounded-full text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer text-white"
               title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
             >
               {isMuted ? (
@@ -259,15 +272,15 @@ export function App() {
             {/* Featured Links CTA */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-6 py-3 text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer"
+              className="flex items-center gap-2 border border-white/30 hover:border-white/60 px-4 xl:px-6 py-2.5 text-[11px] xl:text-xs tracking-widest uppercase hover:bg-white/10 transition-all cursor-pointer whitespace-nowrap"
             >
               <Link2 className="w-3.5 h-3.5 text-[#00F0FF]" />
               <span>FEATURED LINKS</span>
             </button>
           </div>
 
-          {/* Right: Mobile Controls (Sound + Hamburger) */}
-          <div className="md:hidden flex items-center gap-2">
+          {/* Right: Mobile/Tablet Controls (Sound + Hamburger) — shows below lg (1024px) */}
+          <div className="lg:hidden flex items-center gap-2 shrink-0">
             <button
               onClick={toggleOfficialTrack}
               className={`p-2 border rounded-full transition-opacity cursor-pointer ${
@@ -304,20 +317,20 @@ export function App() {
         </nav>
 
         {/* ── HERO CONTENT ── */}
-        <div className="py-4 sm:py-6 lg:pb-16 flex flex-col justify-center flex-1 my-auto">
+        <div className="flex flex-col justify-center flex-1 min-h-0">
 
           {/* Tagline */}
-          <div className="flex items-center gap-2 mb-3 sm:mb-6 animate-fade-up">
+          <div className="flex items-center gap-2 animate-fade-up" style={{ marginBottom: 'var(--hero-gap-sm)' }}>
             <Crown className="w-3.5 h-3.5 text-white/70" />
             <span className="font-inter text-white/70 text-[10px] sm:text-xs lg:text-sm tracking-[0.25em] uppercase">
               AI-First Education &amp; Media
             </span>
           </div>
 
-          {/* Main Heading */}
+          {/* Main Heading — vmin-based so it scales with BOTH width AND height */}
           <h1
-            className="font-podium text-white uppercase leading-[0.92] tracking-tight animate-fade-up-delay-1"
-            style={{ fontSize: 'clamp(2.2rem, 6.5vh, 6.5rem)' }}
+            className="font-podium text-white uppercase leading-[0.93] tracking-tight animate-fade-up-delay-1"
+            style={{ fontSize: 'var(--hero-title-size)' }}
           >
             Learn.<br />
             Build.<br />
@@ -325,18 +338,24 @@ export function App() {
           </h1>
 
           {/* Subtext */}
-          <p className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md mt-3 sm:mt-6 animate-fade-up-delay-2">
+          <p
+            className="font-inter text-white/70 text-xs sm:text-sm lg:text-base leading-relaxed max-w-md animate-fade-up-delay-2"
+            style={{ marginTop: 'var(--hero-gap-md)' }}
+          >
             We make complex AI simple &amp; practical — not just information, <span className="text-white font-semibold">real-world action.</span>
           </p>
 
           {/* CTA Row */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 mt-5 sm:mt-8 animate-fade-up-delay-3">
-            {/* Primary CTA (YouTube Red default on mobile, red on hover desktop) */}
+          <div
+            className="flex flex-wrap items-center gap-2 sm:gap-3 animate-fade-up-delay-3"
+            style={{ marginTop: 'var(--hero-gap-lg)' }}
+          >
+            {/* Primary CTA */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
+              className="group flex items-center gap-2 bg-[#FF0000] sm:bg-black sm:hover:bg-[#FF0000] hover:bg-[#CC0000] text-white px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-[10px] sm:text-xs tracking-widest uppercase transition-all duration-300 cursor-pointer shadow-lg shadow-red-900/30 font-semibold"
             >
               WATCH ON YOUTUBE
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -345,7 +364,7 @@ export function App() {
             {/* Links Button */}
             <button
               onClick={() => setLinksOpen(true)}
-              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-4 sm:px-6 py-2.5 sm:py-3.5 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
+              className="flex items-center gap-2 border border-[#00F0FF]/50 bg-[#18011F]/60 hover:bg-[#18011F] px-3.5 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 text-[10px] sm:text-xs tracking-widest uppercase transition-all text-[#00F0FF] cursor-pointer"
             >
               <Link2 className="w-3.5 h-3.5" />
               <span>DM LINKS &amp; RESOURCES</span>
@@ -354,7 +373,7 @@ export function App() {
             {/* Tech Hacks Series CTA Pill */}
             <button
               onClick={() => setSeriesOpen(true)}
-              className="flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white cursor-pointer rounded-full"
+              className="flex items-center gap-2 border border-[#B600A8]/60 bg-[#B600A8]/20 hover:bg-[#B600A8]/40 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white cursor-pointer rounded-full"
             >
               <Flame className="w-3.5 h-3.5 text-[#00F0FF] animate-pulse" />
               <span>WATCH SERIES</span>
@@ -363,7 +382,7 @@ export function App() {
             {/* Play Official Theme Track Pill */}
             <button
               onClick={toggleOfficialTrack}
-              className={`relative flex items-center gap-2 border px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
+              className={`relative flex items-center gap-2 border px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all cursor-pointer rounded-full ${
                 isPlayingTrack
                   ? 'bg-gradient-to-r from-[#FF007A] to-[#B600A8] border-[#FF007A] text-white animate-pulse shadow-lg shadow-pink-900/50'
                   : 'bg-white/10 border-[#FF007A]/60 hover:bg-white/20 text-white font-semibold'
@@ -381,7 +400,7 @@ export function App() {
             {/* Sound Toggle Pill */}
             <button
               onClick={toggleSound}
-              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
+              className="flex items-center gap-2 border border-white/20 bg-white/5 hover:bg-white/10 px-3.5 py-2 sm:py-2.5 text-[10px] sm:text-[11px] tracking-widest uppercase transition-all text-white/80 cursor-pointer rounded-full"
             >
               {isMuted ? (
                 <>
@@ -407,12 +426,15 @@ export function App() {
           </div>
 
           {/* Stats Row */}
-          <div className="flex items-center gap-6 sm:gap-12 lg:gap-16 mt-6 sm:mt-10 animate-fade-up-delay-4">
+          <div
+            className="flex items-center gap-5 sm:gap-10 lg:gap-14 animate-fade-up-delay-4"
+            style={{ marginTop: 'var(--hero-gap-lg)' }}
+          >
             <button
               onClick={() => setSeriesOpen(true)}
               className="text-left group cursor-pointer"
             >
-              <p className="font-inter text-[#00F0FF] text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight group-hover:underline">
+              <p className="font-inter text-[#00F0FF] text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight group-hover:underline">
                 8/100
               </p>
               <p className="font-inter text-white/70 group-hover:text-white text-[8px] sm:text-xs tracking-widest uppercase mt-0.5 flex items-center gap-1">
@@ -421,22 +443,25 @@ export function App() {
               </p>
             </button>
             <div>
-              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">125+</p>
+              <p className="font-inter text-white text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight">125+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">Insta Fam</p>
             </div>
             <div>
-              <p className="font-inter text-white text-xl sm:text-3xl lg:text-5xl font-bold tracking-tight">555+</p>
+              <p className="font-inter text-white text-xl sm:text-2xl lg:text-4xl font-bold tracking-tight">555+</p>
               <p className="font-inter text-white/50 text-[8px] sm:text-xs tracking-widest uppercase mt-0.5">YouTube Subs</p>
             </div>
           </div>
 
           {/* ── Social Channels Links Row ── */}
-          <div className="flex items-center gap-3 mt-5 sm:mt-8 animate-fade-up-delay-4">
+          <div
+            className="flex items-center gap-3 animate-fade-up-delay-4"
+            style={{ marginTop: 'var(--hero-gap-md)' }}
+          >
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
               <InstagramIcon className="w-4 h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
               <span>@madebyparv</span>
@@ -446,7 +471,7 @@ export function App() {
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
+              className="flex items-center gap-2 px-3.5 py-1.5 sm:py-2 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[11px] font-inter uppercase tracking-wider transition-all group"
             >
               <Youtube className="w-4 h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
               <span>@MadeByParv</span>
@@ -455,8 +480,8 @@ export function App() {
 
         </div>
 
-        {/* Bottom padding safety gap for mobile viewports */}
-        <div className="h-4 sm:h-6 shrink-0" />
+        {/* Bottom breathing room */}
+        <div className="shrink-0" style={{ height: 'clamp(0.5rem, 1.5vh, 1.5rem)' }} />
       </div>
 
       {/* ── ULTRA-PREMIUM GLASSMORPHISM MUSIC SUGGESTION CARD ── */}
