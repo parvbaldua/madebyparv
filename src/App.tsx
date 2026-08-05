@@ -436,26 +436,40 @@ export function App() {
             </div>
           </div>
 
-          {/* Social Channels Row */}
-          <div className="flex items-center gap-2 sm:gap-3 animate-fade-up-delay-4">
+          {/* Social Channels Row — UIverse Brutalist Buttons */}
+          <div className="flex items-center gap-4 sm:gap-6 animate-fade-up-delay-4 mt-1">
+            {/* Instagram Brutalist Button */}
             <a
               href="https://www.instagram.com/madebyparv"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-social flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-gradient-to-r hover:from-[#B600A8]/30 hover:to-[#FF007A]/30 border border-white/10 hover:border-[#FF007A]/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider group"
+              className="brutalist-button insta-btn"
+              title="Instagram @madebyparv"
             >
-              <InstagramIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF007A] group-hover:scale-110 transition-transform" />
-              <span>@madebyparv</span>
+              <div className="brutalist-logo">
+                <InstagramIcon className="brutalist-icon text-[#FF007A]" />
+              </div>
+              <div className="brutalist-text">
+                <span>Follow on</span>
+                <span>@madebyparv</span>
+              </div>
             </a>
 
+            {/* YouTube Brutalist Button */}
             <a
               href="https://www.youtube.com/@MadeByParv"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-social flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 text-white/80 hover:text-white text-[10px] sm:text-[11px] font-inter uppercase tracking-wider group"
+              className="brutalist-button youtube-btn"
+              title="YouTube @MadeByParv"
             >
-              <Youtube className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF0000] group-hover:scale-110 transition-transform" />
-              <span>@MadeByParv</span>
+              <div className="brutalist-logo">
+                <Youtube className="brutalist-icon text-[#FF0000]" />
+              </div>
+              <div className="brutalist-text">
+                <span>Subscribe to</span>
+                <span>@MadeByParv</span>
+              </div>
             </a>
           </div>
 
